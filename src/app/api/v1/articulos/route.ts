@@ -10,9 +10,8 @@ export async function GET(request: NextRequest) {
 
     if (id) {
       const articuloId = BigInt(id);
-      const articulo = await articuloService.getArticuloWithRelations(
-        articuloId
-      );
+      const articulo =
+        await articuloService.getArticuloWithRelations(articuloId);
       return successResponse(articulo);
     }
 
@@ -34,12 +33,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
-    
+
     // Convertir id_categoria a BigInt si viene como string
-    if (data.id_categoria && typeof data.id_categoria === 'string') {
+    if (data.id_categoria && typeof data.id_categoria === "string") {
       data.id_categoria = BigInt(data.id_categoria);
     }
-    
+
     const articulo = await articuloService.createArticulo(data);
     return successResponse(articulo, 201);
   } catch (error) {

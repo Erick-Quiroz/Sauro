@@ -4,7 +4,7 @@ import { successResponse, errorResponse } from "@/shared/errors";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const usuarioId = BigInt(params.id);
@@ -17,17 +17,17 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const usuarioId = BigInt(params.id);
     const data = await request.json();
-    
+
     // Convertir id_rol de string a BigInt si está presente
     if (data.id_rol) {
       data.id_rol = BigInt(data.id_rol);
     }
-    
+
     const usuario = await usuarioService.updateUsuario(usuarioId, data);
     return successResponse(usuario);
   } catch (error) {
@@ -37,7 +37,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     const usuarioId = BigInt(params.id);
