@@ -1,6 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { BaseService } from "@/infrastructure/base.service";
-import { CategoriaDTO, CreateCategoriaDTO, UpdateCategoriaDTO } from "./categoria.types";
+import {
+  CategoriaDTO,
+  CreateCategoriaDTO,
+  UpdateCategoriaDTO,
+} from "./categoria.types";
 import { AppError } from "@/shared/errors";
 
 export class CategoriaService extends BaseService<CategoriaDTO> {
@@ -24,7 +28,7 @@ export class CategoriaService extends BaseService<CategoriaDTO> {
 
   async updateCategoria(
     id: bigint,
-    data: UpdateCategoriaDTO
+    data: UpdateCategoriaDTO,
   ): Promise<CategoriaDTO> {
     // Validar que el usuario editor exista si se proporciona
     if (data.update_by) {
@@ -65,6 +69,30 @@ export class CategoriaService extends BaseService<CategoriaDTO> {
     }
 
     return categoria;
+  }
+
+  async getAllCategoriasWithArticulos(): Promise<any[]> {
+    const categorias = await prisma.categorias.findMany({
+      where: { activo: true },
+      include: {
+        articulos: {
+          where: { activo: true },
+          select: {
+            id: true,
+            titulo: true,
+            contenido: true,
+          },
+          orderBy: {
+            create_at: "desc",
+          },
+        },
+      },
+      orderBy: {
+        nombre: "asc",
+      },
+    });
+
+    return categorias;
   }
 }
 

@@ -3,6 +3,7 @@ export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/modules/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -26,11 +27,22 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
+        // Colores personalizados SAURO
+        "sauro-dark": "#021a1e",
+        "sauro-green": "#4ade80",
+        "sauro-green-light": "#dcfce7",
+        "sauro-red": "#d9534f",
+        "sauro-red-light": "#ffe8e6",
+        "sauro-yellow": "#fbbf24",
+        "sauro-gray-light": "#f4f6f9",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["Inter", "Roboto", "Poppins", "system-ui", "sans-serif"],
       },
     },
   },

@@ -31,6 +31,12 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
+    
+    // Convertir id_rol de string a BigInt si está presente
+    if (data.id_rol) {
+      data.id_rol = BigInt(data.id_rol);
+    }
+    
     const usuario = await usuarioService.createUsuario(data);
     return successResponse(usuario, 201);
   } catch (error) {
