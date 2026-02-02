@@ -1,4 +1,3 @@
-// Configuración del generador y la fuente de datos
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,110 +7,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ============================================
-// ROLES
-// ============================================
 model Rol {
-  id        BigInt    @id @default(autoincrement())
-  nombre    String    @db.VarChar(150)
-  permisos  Json?     @db.Json
-  activo    Boolean   @default(true)
-  create_at DateTime  @default(now()) @db.Timestamp(6)
-  update_at DateTime  @updatedAt @db.Timestamp(6)
-
-  // Relaciones
+  id        BigInt     @id @default(autoincrement())
+  nombre    String     @db.VarChar(150)
+  permisos  Json?      @db.Json
+  create_at DateTime   @default(now()) @db.Timestamp(6)
+  update_at DateTime   @updatedAt @db.Timestamp(6)
+  activo    Boolean    @default(true)
   usuarios  Usuarios[]
 
   @@map("roles")
 }
 
-// ============================================
-// USUARIOS
-// ============================================
 model Usuarios {
-  id                   BigInt       @id @default(autoincrement())
-  id_rol               BigInt
-  nombre               String       @db.VarChar(250)
-  apellido             String       @db.VarChar(250)
-  email                String       @unique @db.VarChar(250)
-  password             String       @db.VarChar
-  activo               Boolean      @default(true)
-  create_at            DateTime     @default(now()) @db.Timestamp(6)
-  update_at            DateTime     @updatedAt @db.Timestamp(6)
-
-  // Relaciones
-  rol                  Rol          @relation(fields: [id_rol], references: [id], onDelete: Cascade)
-  categorias_creadas   Categorias[] @relation("CategoriaCreadaPor")
-  categorias_editadas  Categorias[] @relation("CategoriaEditadaPor")
-  articulos_creados    Articulos[]  @relation("ArticuloCreadoPor")
-  articulos_editados   Articulos[]  @relation("ArticuloEditadoPor")
-  logs                 Log[]
+  id                  BigInt       @id @default(autoincrement())
+  id_rol              BigInt
+  nombre              String       @db.VarChar(250)
+  apellido            String       @db.VarChar(250)
+  email               String       @unique @db.VarChar(250)
+  password            String       @db.VarChar
+  create_at           DateTime     @default(now()) @db.Timestamp(6)
+  update_at           DateTime     @updatedAt @db.Timestamp(6)
+  activo              Boolean      @default(true)
+  articulos_creados   Articulos[]  @relation("ArticuloCreadoPor")
+  articulos_editados  Articulos[]  @relation("ArticuloEditadoPor")
+  categorias_creadas  Categorias[] @relation("CategoriaCreadaPor")
+  categorias_editadas Categorias[] @relation("CategoriaEditadaPor")
+  logs                Log[]
+  rol                 Rol          @relation(fields: [id_rol], references: [id], onDelete: Cascade)
 
   @@map("usuarios")
 }
 
-// ============================================
-// CATEGORIAS
-// ============================================
 model Categorias {
-  id         BigInt       @id @default(autoincrement())
-  nombre     String       @db.VarChar(250)
-  activo     Boolean      @default(true)
-  create_at  DateTime     @default(now()) @db.Timestamp(6)
-  update_at  DateTime     @updatedAt @db.Timestamp(6)
-  create_by  BigInt?
-  update_by  BigInt?
-
-  // Relaciones
-  creador    Usuarios?    @relation("CategoriaCreadaPor", fields: [create_by], references: [id], onDelete: SetNull)
-  editor     Usuarios?    @relation("CategoriaEditadaPor", fields: [update_by], references: [id], onDelete: SetNull)
-  articulos  Articulos[]
+  id        BigInt      @id @default(autoincrement())
+  nombre    String      @db.VarChar(250)
+  create_at DateTime    @default(now()) @db.Timestamp(6)
+  update_at DateTime    @updatedAt @db.Timestamp(6)
+  create_by BigInt?
+  update_by BigInt?
+  activo    Boolean     @default(true)
+  articulos Articulos[]
+  creador   Usuarios?   @relation("CategoriaCreadaPor", fields: [create_by], references: [id])
+  editor    Usuarios?   @relation("CategoriaEditadaPor", fields: [update_by], references: [id])
 
   @@map("categorias")
 }
 
-// ============================================
-// ARTICULOS
-// ============================================
 model Articulos {
   id           BigInt         @id @default(autoincrement())
   id_categoria BigInt
   titulo       String         @db.VarChar
   contenido    Json?          @db.Json
-  activo       Boolean        @default(true)
   create_at    DateTime       @default(now()) @db.Timestamp(6)
   update_at    DateTime       @updatedAt @db.Timestamp(6)
   create_by    BigInt?
   update_by    BigInt?
-
-  // Relaciones
+  activo       Boolean        @default(true)
+  creador      Usuarios?      @relation("ArticuloCreadoPor", fields: [create_by], references: [id])
   categoria    Categorias     @relation(fields: [id_categoria], references: [id], onDelete: Cascade)
-  creador      Usuarios?      @relation("ArticuloCreadoPor", fields: [create_by], references: [id], onDelete: SetNull)
-  editor       Usuarios?      @relation("ArticuloEditadoPor", fields: [update_by], references: [id], onDelete: SetNull)
+  editor       Usuarios?      @relation("ArticuloEditadoPor", fields: [update_by], references: [id])
   imagenes     ImgArticulos[]
 
   @@map("articulos")
 }
 
-// ============================================
-// IMAGENES ARTICULOS
-// ============================================
 model ImgArticulos {
-  id          BigInt   @id @default(autoincrement())
+  id          BigInt    @id @default(autoincrement())
   id_articulo BigInt
-  url         String   @db.VarChar
+  url         String    @db.VarChar
   orden       BigInt
-  create_at   DateTime @default(now()) @db.Timestamp(6)
-
-  // Relaciones
+  create_at   DateTime  @default(now()) @db.Timestamp(6)
   articulo    Articulos @relation(fields: [id_articulo], references: [id], onDelete: Cascade)
 
   @@map("img_articulos")
 }
 
-// ============================================
-// LOGS (AUDITORÍA)
-// ============================================
 model Log {
   id            BigInt   @id @default(autoincrement())
   user_id       BigInt
@@ -120,42 +91,33 @@ model Log {
   previous_data Json?    @db.Json
   after_data    Json?    @db.Json
   create_at     DateTime @default(now()) @db.Timestamp(6)
-
-  // Relaciones
   usuario       Usuarios @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("logs")
 }
 
-// ============================================
-// FAQ - PREGUNTAS FRECUENTES
-// ============================================
 model FaqSecciones {
-  id        BigInt   @id @default(autoincrement())
-  titulo    String   @db.VarChar(250)
-  orden     Int      @default(0)
-  activo    Boolean  @default(true)
-  create_at DateTime @default(now()) @db.Timestamp(6)
-  update_at DateTime @updatedAt @db.Timestamp(6)
-
-  // Relaciones
+  id        BigInt         @id @default(autoincrement())
+  titulo    String         @db.VarChar(250)
+  orden     Int            @default(0)
+  activo    Boolean        @default(true)
+  create_at DateTime       @default(now()) @db.Timestamp(6)
+  update_at DateTime       @updatedAt @db.Timestamp(6)
   preguntas FaqPreguntas[]
 
   @@map("faq_secciones")
 }
 
 model FaqPreguntas {
-  id          BigInt        @id @default(autoincrement())
-  id_seccion  BigInt
-  pregunta    String        @db.VarChar(500)
-  respuesta   String        @db.Text
-  orden       Int           @default(0)
-  activo      Boolean       @default(true)
-  create_at   DateTime      @default(now()) @db.Timestamp(6)
-  update_at   DateTime      @updatedAt @db.Timestamp(6)
-
-  // Relaciones
-  seccion     FaqSecciones  @relation(fields: [id_seccion], references: [id], onDelete: Cascade)
+  id         BigInt       @id @default(autoincrement())
+  id_seccion BigInt
+  pregunta   String       @db.VarChar(500)
+  respuesta  String
+  orden      Int          @default(0)
+  activo     Boolean      @default(true)
+  create_at  DateTime     @default(now()) @db.Timestamp(6)
+  update_at  DateTime     @updatedAt @db.Timestamp(6)
+  seccion    FaqSecciones @relation(fields: [id_seccion], references: [id], onDelete: Cascade)
 
   @@map("faq_preguntas")
 }
