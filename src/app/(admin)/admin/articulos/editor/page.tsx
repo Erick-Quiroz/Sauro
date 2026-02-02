@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,11 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { BlockNoteEditor } from "@/modules/articulos/ui/BlockNoteEditor";
 import { ArticleMetadataPanel } from "@/modules/articulos/ui/ArticleMetadataPanel";
 
-export default function ArticuloEditorPage({
-  params,
-}: {
-  params: { id?: string };
-}) {
+function ArticuloEditorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const articuloId = searchParams.get("id");
@@ -238,5 +234,22 @@ export default function ArticuloEditorPage({
         </div>
       )}
     </>
+  );
+}
+
+export default function ArticuloEditorPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-sauro-green mb-4"></div>
+            <p className="text-gray-600">Cargando editor...</p>
+          </div>
+        </div>
+      }
+    >
+      <ArticuloEditorContent />
+    </Suspense>
   );
 }
