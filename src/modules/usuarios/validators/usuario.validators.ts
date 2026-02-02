@@ -42,13 +42,13 @@ export const validateUsuario = (data: CreateUsuarioDTO): ValidationError[] => {
     });
   }
 
-  // Validar contraseña (solo si es nuevo usuario)
-  if (!data.id && !data.password?.trim()) {
+  // Validar contraseña
+  if (!data.password?.trim()) {
     errors.push({
       field: "password",
       message: "La contraseña es requerida",
     });
-  } else if (data.password && data.password.length < 6) {
+  } else if (data.password.length < 6) {
     errors.push({
       field: "password",
       message: "La contraseña debe tener al menos 6 caracteres",

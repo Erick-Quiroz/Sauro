@@ -1,7 +1,7 @@
 import { ValidationError, CreateArticuloDTO } from "../articulo.types";
 
 export const validateArticulo = (
-  data: CreateArticuloDTO
+  data: CreateArticuloDTO,
 ): ValidationError[] => {
   const errors: ValidationError[] = [];
 
@@ -24,25 +24,25 @@ export const validateArticulo = (
   }
 
   // Validar categoría
-  if (!data.categoria?.trim()) {
+  if (!data.id_categoria) {
     errors.push({
-      field: "categoria",
+      field: "id_categoria",
       message: "Debe seleccionar una categoría",
     });
   }
 
   // Validar autor
-  if (!data.autor?.trim()) {
+  if (!data.create_by) {
     errors.push({
-      field: "autor",
+      field: "create_by",
       message: "El autor es requerido",
     });
   }
 
-  // Validar estado
-  if (!["publicado", "borrador", "archivado"].includes(data.estado)) {
+  // Validar estado (activo)
+  if (data.activo !== undefined && typeof data.activo !== "boolean") {
     errors.push({
-      field: "estado",
+      field: "activo",
       message: "El estado no es válido",
     });
   }

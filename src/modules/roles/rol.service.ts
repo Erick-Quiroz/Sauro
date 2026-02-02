@@ -1,14 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import { BaseService } from "@/infrastructure/base.service";
-import { RolDTO, CreateRolDTO, UpdateRolDTO } from "./rol.types";
+import { Rol, CreateRolDTO, UpdateRolDTO } from "./rol.types";
 import { AppError } from "@/shared/errors";
 
-export class RolService extends BaseService<RolDTO> {
+export class RolService extends BaseService<Rol> {
   constructor() {
     super(prisma.rol);
   }
 
-  async createRol(data: CreateRolDTO): Promise<RolDTO> {
+  async createRol(data: CreateRolDTO): Promise<Rol> {
     // Validar que el nombre no exista
     const existingRol = await prisma.rol.findFirst({
       where: { nombre: data.nombre },
@@ -26,7 +26,7 @@ export class RolService extends BaseService<RolDTO> {
     return result;
   }
 
-  async updateRol(id: bigint, data: UpdateRolDTO): Promise<RolDTO> {
+  async updateRol(id: bigint, data: UpdateRolDTO): Promise<Rol> {
     // Si se cambia el nombre, validar que no exista otro rol con ese nombre
     if (data.nombre) {
       const existingRol = await prisma.rol.findFirst({
