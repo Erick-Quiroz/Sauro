@@ -18,7 +18,7 @@ export class RolService extends BaseService<Rol> {
       throw new AppError(
         "DUPLICATE_ROL",
         409,
-        `El rol "${data.nombre}" ya existe`
+        `El rol "${data.nombre}" ya existe`,
       );
     }
 
@@ -40,7 +40,7 @@ export class RolService extends BaseService<Rol> {
         throw new AppError(
           "DUPLICATE_ROL",
           409,
-          `El rol "${data.nombre}" ya existe`
+          `El rol "${data.nombre}" ya existe`,
         );
       }
     }
