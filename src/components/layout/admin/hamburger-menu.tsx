@@ -17,7 +17,6 @@ export function HamburgerMenu() {
 
   return (
     <>
-      {/* Botón hamburguesa - Visible solo en mobile */}
       <button
         onClick={toggleMenu}
         className="md:hidden fixed top-4 left-4 z-40 p-2 rounded-lg bg-sauro-dark text-white hover:bg-opacity-90 transition-all duration-300"
@@ -26,7 +25,6 @@ export function HamburgerMenu() {
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Overlay - Visible cuando el menú está abierto en mobile */}
       {isOpen && (
         <div
           className="md:hidden fixed inset-0 bg-black/50 z-30 transition-opacity duration-300"
@@ -34,7 +32,6 @@ export function HamburgerMenu() {
         />
       )}
 
-      {/* Sidebar - Responsive con posicionamiento correcto */}
       <aside
         className={`
           w-64 bg-sauro-dark text-white flex flex-col

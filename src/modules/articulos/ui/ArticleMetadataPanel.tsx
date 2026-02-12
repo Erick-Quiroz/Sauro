@@ -42,7 +42,6 @@ export function ArticleMetadataPanel({
           setCategorias(json.data.items || []);
         }
       } catch (error) {
-        console.error("Error al cargar categorías:", error);
       } finally {
         setIsLoading(false);
       }
@@ -58,7 +57,6 @@ export function ArticleMetadataPanel({
         </h3>
       </div>
 
-      {/* Categoría */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Categoría <span className="text-red-500">*</span>
@@ -93,7 +91,6 @@ export function ArticleMetadataPanel({
         </Select>
       </div>
 
-      {/* Estado */}
       <div className="pt-4 border-t border-gray-200">
         <div className="flex items-center gap-3">
           <div className="flex-1">
@@ -123,7 +120,6 @@ export function ArticleMetadataPanel({
         </div>
       </div>
 
-      {/* Información adicional */}
       <div className="pt-4 border-t border-gray-200 space-y-3 text-xs text-gray-500">
         <div>
           <p className="font-medium text-gray-700">Consejos</p>

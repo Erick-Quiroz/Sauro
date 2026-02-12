@@ -3,7 +3,6 @@ import { ValidationError, CreateUsuarioDTO } from "../usuario.types";
 export const validateUsuario = (data: CreateUsuarioDTO): ValidationError[] => {
   const errors: ValidationError[] = [];
 
-  // Validar nombre
   if (!data.nombre?.trim()) {
     errors.push({
       field: "nombre",
@@ -16,7 +15,6 @@ export const validateUsuario = (data: CreateUsuarioDTO): ValidationError[] => {
     });
   }
 
-  // Validar apellido
   if (!data.apellido?.trim()) {
     errors.push({
       field: "apellido",
@@ -29,7 +27,6 @@ export const validateUsuario = (data: CreateUsuarioDTO): ValidationError[] => {
     });
   }
 
-  // Validar correo
   if (!data.email?.trim()) {
     errors.push({
       field: "email",
@@ -42,7 +39,6 @@ export const validateUsuario = (data: CreateUsuarioDTO): ValidationError[] => {
     });
   }
 
-  // Validar contraseña
   if (!data.password?.trim()) {
     errors.push({
       field: "password",

@@ -1,12 +1,19 @@
 "use client";
 
-import { useToast, ToastContainer } from "@/components";
+import {
+  useToast,
+  ToastContainer,
+  ConfirmDeleteDialog,
+  useConfirmDialog,
+} from "@/components";
 import { CategoriasTable } from "@/modules/categorias/ui/CategoriasTable";
 import { CategoriaFormModal } from "@/modules/categorias/ui/CategoriaFormModal";
 import { useCategorias } from "@/modules/categorias/hooks/useCategorias";
 
 export default function CategoriasPage() {
   const { toasts, showToast, removeToast } = useToast();
+  const { dialogState, openDialog, closeDialog, handleConfirm } =
+    useConfirmDialog();
 
   const {
     filteredCategorias,
@@ -15,6 +22,7 @@ export default function CategoriasPage() {
     totalPages,
     isModalOpen,
     editingCategoria,
+    isLoading,
     setSearchTerm,
     setCurrentPage,
     openModal,
@@ -39,6 +47,18 @@ export default function CategoriasPage() {
     }
   };
 
+  const onDeleteClick = (id: string | bigint) => {
+    const categoria = filteredCategorias.find((c) => c.id === id);
+    if (!categoria) return;
+
+    openDialog(
+      "Eliminar Categoría",
+      "Esta acción no se puede deshacer. La categoría será eliminada permanentemente.",
+      () => handleDelete(id),
+      categoria.nombre,
+    );
+  };
+
   return (
     <div className="space-y-6">
       <CategoriasTable
@@ -52,7 +72,7 @@ export default function CategoriasPage() {
         }}
         onPageChange={setCurrentPage}
         onEdit={handleEditClick}
-        onDelete={handleDelete}
+        onDelete={onDeleteClick}
         onCreateClick={() => openModal()}
       />
 
@@ -61,6 +81,16 @@ export default function CategoriasPage() {
         onClose={closeModal}
         onSubmit={handleFormSubmit}
         editingCategoria={editingCategoria}
+      />
+
+      <ConfirmDeleteDialog
+        isOpen={dialogState.isOpen}
+        title={dialogState.title}
+        description={dialogState.description}
+        itemName={dialogState.itemName}
+        isLoading={isLoading}
+        onConfirm={handleConfirm}
+        onCancel={closeDialog}
       />
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />

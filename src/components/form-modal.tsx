@@ -50,7 +50,6 @@ export function FormModal({
   const initialFormData = useMemo(() => {
     const initial: Record<string, any> = {};
     fields.forEach((field) => {
-      // Usar defaultValue si está definido, incluyendo valores falsy como false, 0, ""
       initial[field.name] =
         field.defaultValue !== undefined ? field.defaultValue : "";
     });
@@ -61,7 +60,6 @@ export function FormModal({
     useState<Record<string, any>>(initialFormData);
 
   useEffect(() => {
-    // Sincronizar el estado interno cuando se abre el modal o cambian los valores iniciales
     setFormData(initialFormData);
   }, [initialFormData, isOpen]);
 

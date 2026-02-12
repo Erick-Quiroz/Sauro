@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { ApiResponse, ApiError } from "./types";
 
-// Helper para convertir BigInt a string de forma recursiva
 const convertBigIntToString = (obj: any): any => {
   if (obj === null || obj === undefined) {
     return obj;
@@ -33,7 +32,7 @@ export class AppError extends Error {
     public code: string,
     public statusCode: number,
     message: string,
-    public details?: Record<string, any>
+    public details?: Record<string, any>,
   ) {
     super(message);
     this.name = "AppError";
@@ -42,7 +41,7 @@ export class AppError extends Error {
 
 export const errorResponse = (
   error: unknown,
-  statusCode: number = 500
+  statusCode: number = 500,
 ): NextResponse<ApiResponse<null>> => {
   let apiError: ApiError;
 
@@ -71,13 +70,13 @@ export const errorResponse = (
       error: apiError,
       timestamp: new Date().toISOString(),
     },
-    { status: statusCode }
+    { status: statusCode },
   );
 };
 
 export const successResponse = <T>(
   data: T,
-  statusCode: number = 200
+  statusCode: number = 200,
 ): NextResponse<ApiResponse<T>> => {
   const convertedData = convertBigIntToString(data);
 
@@ -87,6 +86,6 @@ export const successResponse = <T>(
       data: convertedData,
       timestamp: new Date().toISOString(),
     },
-    { status: statusCode }
+    { status: statusCode },
   );
 };

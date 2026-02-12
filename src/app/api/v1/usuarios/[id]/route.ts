@@ -23,7 +23,6 @@ export async function PUT(
     const usuarioId = BigInt(params.id);
     const data = await request.json();
 
-    // Convertir id_rol de string a BigInt si está presente
     if (data.id_rol) {
       data.id_rol = BigInt(data.id_rol);
     }

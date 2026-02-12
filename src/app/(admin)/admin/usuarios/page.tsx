@@ -1,6 +1,7 @@
 "use client";
 
-import { useToast, ToastContainer } from "@/components";
+import { useToast, ToastContainer, ConfirmDeleteDialog } from "@/components";
+import { useConfirmDialog } from "@/components/use-confirm-dialog";
 import { UsuariosTable } from "@/modules/usuarios/ui/UsuariosTable";
 import { UsuarioFormModal } from "@/modules/usuarios/ui/UsuarioFormModal";
 import { useUsuarios } from "@/modules/usuarios/hooks/useUsuarios";
@@ -8,6 +9,8 @@ import { Usuario, CreateUsuarioDTO } from "@/modules/usuarios/usuario.types";
 
 export default function UsuariosPage() {
   const { toasts, showToast, removeToast } = useToast();
+  const { dialogState, openDialog, closeDialog, handleConfirm } =
+    useConfirmDialog();
 
   const {
     filteredUsuarios,
@@ -16,6 +19,7 @@ export default function UsuariosPage() {
     totalPages,
     isModalOpen,
     editingUsuario,
+    isLoading,
     setSearchTerm,
     setCurrentPage,
     openModal,
@@ -33,6 +37,17 @@ export default function UsuariosPage() {
     }
   };
 
+  const onDeleteClick = (usuario: Usuario) => {
+    if (!usuario.id) return;
+
+    openDialog(
+      "Eliminar Usuario",
+      "Esta acción no se puede deshacer. El usuario será eliminado permanentemente.",
+      () => handleDelete(usuario.id!),
+      `${usuario.nombre} ${usuario.apellido}`,
+    );
+  };
+
   return (
     <div className="space-y-6">
       <UsuariosTable
@@ -46,7 +61,7 @@ export default function UsuariosPage() {
         }}
         onPageChange={setCurrentPage}
         onEdit={openModal}
-        onDelete={(usuario) => usuario.id && handleDelete(usuario.id)}
+        onDelete={onDeleteClick}
         onCreateClick={() => openModal()}
       />
 
@@ -55,6 +70,16 @@ export default function UsuariosPage() {
         onClose={closeModal}
         onSubmit={handleFormSubmit}
         editingUsuario={editingUsuario}
+      />
+
+      <ConfirmDeleteDialog
+        isOpen={dialogState.isOpen}
+        title={dialogState.title}
+        description={dialogState.description}
+        itemName={dialogState.itemName}
+        isLoading={isLoading}
+        onConfirm={handleConfirm}
+        onCancel={closeDialog}
       />
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />

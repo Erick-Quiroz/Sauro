@@ -1,6 +1,11 @@
 "use client";
 
-import { useToast, ToastContainer } from "@/components";
+import {
+  useToast,
+  ToastContainer,
+  ConfirmDeleteDialog,
+  useConfirmDialog,
+} from "@/components";
 import { RolesTable } from "@/modules/roles/ui/RolesTable";
 import { RolFormModal } from "@/modules/roles/ui/RolFormModal";
 import { useRoles } from "@/modules/roles/hooks/useRoles";
@@ -8,6 +13,8 @@ import { Rol, CreateRolDTO } from "@/modules/roles/rol.types";
 
 export default function RolesPage() {
   const { toasts, showToast, removeToast } = useToast();
+  const { dialogState, openDialog, closeDialog, handleConfirm } =
+    useConfirmDialog();
 
   const {
     filteredRoles,
@@ -16,6 +23,7 @@ export default function RolesPage() {
     totalPages,
     isModalOpen,
     editingRol,
+    isLoading,
     setSearchTerm,
     setCurrentPage,
     openModal,
@@ -33,6 +41,17 @@ export default function RolesPage() {
     }
   };
 
+  const onDeleteClick = (rol: Rol) => {
+    if (rol.id === undefined) return;
+
+    openDialog(
+      "Eliminar Rol",
+      "Esta acción no se puede deshacer. El rol será eliminado permanentemente.",
+      () => handleDelete(rol.id!),
+      rol.nombre,
+    );
+  };
+
   return (
     <div className="space-y-6">
       <RolesTable
@@ -46,7 +65,7 @@ export default function RolesPage() {
         }}
         onPageChange={setCurrentPage}
         onEdit={openModal}
-        onDelete={(rol) => rol.id !== undefined && handleDelete(rol.id)}
+        onDelete={onDeleteClick}
         onCreateClick={() => openModal()}
       />
 
@@ -55,6 +74,16 @@ export default function RolesPage() {
         onClose={closeModal}
         onSubmit={handleFormSubmit}
         editingRol={editingRol}
+      />
+
+      <ConfirmDeleteDialog
+        isOpen={dialogState.isOpen}
+        title={dialogState.title}
+        description={dialogState.description}
+        itemName={dialogState.itemName}
+        isLoading={isLoading}
+        onConfirm={handleConfirm}
+        onCancel={closeDialog}
       />
 
       <ToastContainer toasts={toasts} onRemove={removeToast} />

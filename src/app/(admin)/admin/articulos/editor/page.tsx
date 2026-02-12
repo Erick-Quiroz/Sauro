@@ -9,12 +9,14 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BlockNoteEditor } from "@/modules/articulos/ui/BlockNoteEditor";
 import { ArticleMetadataPanel } from "@/modules/articulos/ui/ArticleMetadataPanel";
+import { useToast, ToastContainer } from "@/components";
 
 function ArticuloEditorContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const articuloId = searchParams.get("id");
   const isNew = !articuloId;
+  const { toasts, showToast, removeToast } = useToast();
 
   const [titulo, setTitulo] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -25,11 +27,11 @@ function ArticuloEditorContent() {
 
   const handleSave = async () => {
     if (!titulo.trim()) {
-      alert("Por favor, ingresa un título");
+      showToast("Por favor, ingresa un título", "error");
       return;
     }
     if (!categoria) {
-      alert("Por favor, selecciona una categoría");
+      showToast("Por favor, selecciona una categoría", "error");
       return;
     }
 
@@ -57,20 +59,24 @@ function ArticuloEditorContent() {
       const json = await response.json();
 
       if (json.success) {
-        alert(
-          `Artículo "${titulo}" ${isNew ? "creado" : "actualizado"} correctamente`,
+        showToast(
+          `✓ Artículo "${titulo}" ${isNew ? "creado" : "actualizado"} correctamente`,
+          "success",
         );
         sessionStorage.removeItem("articulo_borrador");
-        router.push("/admin/articulos");
+        setTimeout(() => {
+          router.push("/admin/articulos");
+        }, 1500);
       } else {
-        alert(
-          `Error al guardar: ${json.error?.message || "Error desconocido"}`,
+        showToast(
+          json.error?.message || "Error al guardar el artículo",
+          "error",
         );
       }
     } catch (error) {
-      console.error("Error al guardar artículo:", error);
-      alert(
-        `Error al guardar el artículo: ${error instanceof Error ? error.message : "Error desconocido"}`,
+      showToast(
+        error instanceof Error ? error.message : "Error al guardar el artículo",
+        "error",
       );
     } finally {
       setIsSaving(false);
@@ -80,7 +86,6 @@ function ArticuloEditorContent() {
   useEffect(() => {
     const loadData = async () => {
       if (articuloId) {
-        // Cargar artículo existente
         try {
           const response = await fetch(`/api/v1/articulos/${articuloId}`);
           const json = await response.json();
@@ -95,20 +100,16 @@ function ArticuloEditorContent() {
             setActivo(articulo.activo !== false);
           }
         } catch (error) {
-          console.error("Error al cargar artículo:", error);
-          alert("Error al cargar el artículo");
+          showToast("Error al cargar el artículo", "error");
         }
       } else {
-        // Recuperar borrador para artículo nuevo
         const borrador = sessionStorage.getItem("articulo_borrador");
         if (borrador) {
           try {
             const datos = JSON.parse(borrador);
             if (datos.titulo) setTitulo(datos.titulo);
             if (datos.categoria) setCategoria(datos.categoria);
-          } catch (error) {
-            console.error("Error al recuperar borrador:", error);
-          }
+          } catch (error) {}
         }
       }
       setLoaded(true);
@@ -128,7 +129,6 @@ function ArticuloEditorContent() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link href="/admin/articulos">
@@ -161,11 +161,8 @@ function ArticuloEditorContent() {
             </Button>
           </div>
 
-          {/* Main Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Main Content - spans 3 columns */}
             <div className="lg:col-span-3 space-y-6">
-              {/* Title Section */}
               <Card className="p-6 border-2 border-sauro-green/20">
                 <div className="space-y-4">
                   <div>
@@ -187,7 +184,6 @@ function ArticuloEditorContent() {
                 </div>
               </Card>
 
-              {/* Content Editor with BlockNote */}
               <Card className="p-6">
                 <div className="space-y-4">
                   <div>
@@ -208,7 +204,6 @@ function ArticuloEditorContent() {
               </Card>
             </div>
 
-            {/* Sidebar - 1 column */}
             <div className="lg:col-span-1">
               <div className="sticky top-6 space-y-4">
                 <ArticleMetadataPanel
@@ -218,7 +213,6 @@ function ArticuloEditorContent() {
                   onActivoChange={setActivo}
                 />
 
-                {/* Quick Actions */}
                 <Card className="p-4">
                   <Button
                     variant="outline"
@@ -230,6 +224,8 @@ function ArticuloEditorContent() {
                 </Card>
               </div>
             </div>
+
+            <ToastContainer toasts={toasts} onRemove={removeToast} />
           </div>
         </div>
       )}

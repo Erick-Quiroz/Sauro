@@ -40,14 +40,12 @@ export const useCategorias = (
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Usar ref para evitar re-crear la función y causar loops infinitos
   const onToastRef = useRef(onToast);
 
   useEffect(() => {
     onToastRef.current = onToast;
   }, [onToast]);
 
-  // Función para cargar datos (sin dependencias de onToast)
   const loadCategorias = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -68,19 +66,16 @@ export const useCategorias = (
     }
   }, []);
 
-  // Cargar datos solo una vez al montar
   useEffect(() => {
     loadCategorias();
   }, [loadCategorias]);
 
-  // Filtrar datos
   const filteredCategorias = categorias.filter((c) =>
     c.nombre.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const totalPages = Math.ceil(filteredCategorias.length / ITEMS_PER_PAGE) || 1;
 
-  // Modal functions
   const openModal = useCallback((categoria?: CategoriaDTO) => {
     setEditingCategoria(categoria || null);
     setIsModalOpen(true);
@@ -91,7 +86,6 @@ export const useCategorias = (
     setEditingCategoria(null);
   }, []);
 
-  // Create
   const handleCreate = useCallback(
     async (formData: CreateCategoriaDTO) => {
       const errors = validateCategoria(formData);
@@ -119,7 +113,10 @@ export const useCategorias = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Categoría creada correctamente", "success");
+          onToastRef.current(
+            `✓ Categoría "${formData.nombre}" creada correctamente`,
+            "success",
+          );
           await loadCategorias();
           closeModal();
         } else {
@@ -140,7 +137,6 @@ export const useCategorias = (
     [closeModal, loadCategorias],
   );
 
-  // Update
   const handleUpdate = useCallback(
     async (id: bigint | string, formData: CreateCategoriaDTO) => {
       const errors = validateCategoria(formData);
@@ -168,7 +164,10 @@ export const useCategorias = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Categoría actualizada correctamente", "success");
+          onToastRef.current(
+            `✓ Categoría "${formData.nombre}" actualizada correctamente`,
+            "success",
+          );
           await loadCategorias();
           closeModal();
         } else {
@@ -189,11 +188,8 @@ export const useCategorias = (
     [closeModal, loadCategorias],
   );
 
-  // Delete
   const handleDelete = useCallback(
     async (id: bigint | string) => {
-      if (!confirm("¿Deseas eliminar esta categoría?")) return;
-
       try {
         setIsLoading(true);
         const response = await fetch(`/api/v1/categorias/${id}`, {
@@ -203,7 +199,7 @@ export const useCategorias = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Categoría eliminada correctamente", "success");
+          onToastRef.current("✓ Categoría eliminada correctamente", "success");
           await loadCategorias();
         } else {
           onToastRef.current(
@@ -227,7 +223,6 @@ export const useCategorias = (
     return validateCategoria(data);
   }, []);
 
-  // Refetch se queda para compatibilidad backward
   const refetch = loadCategorias;
 
   return {

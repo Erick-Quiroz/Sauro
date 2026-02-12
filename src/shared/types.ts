@@ -1,4 +1,3 @@
-// Tipos base para todas las respuestas de API
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

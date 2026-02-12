@@ -43,7 +43,6 @@ export const useRoles = (
     onToastRef.current = onToast;
   }, [onToast]);
 
-  // Función para cargar datos
   const loadRoles = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -62,7 +61,6 @@ export const useRoles = (
     }
   }, []);
 
-  // Cargar datos solo una vez al montar
   useEffect(() => {
     loadRoles();
   }, [loadRoles]);
@@ -113,7 +111,7 @@ export const useRoles = (
 
         if (json.success) {
           onToastRef.current(
-            `Rol "${formData.nombre}" creado correctamente`,
+            `✓ Rol "${formData.nombre}" creado correctamente`,
             "success",
           );
           await loadRoles();
@@ -161,7 +159,10 @@ export const useRoles = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Rol actualizado correctamente", "success");
+          onToastRef.current(
+            `✓ Rol "${formData.nombre}" actualizado correctamente`,
+            "success",
+          );
           await loadRoles();
           closeModal();
         } else {
@@ -184,8 +185,6 @@ export const useRoles = (
 
   const handleDelete = useCallback(
     async (id: bigint | string) => {
-      if (!confirm("¿Deseas eliminar este rol?")) return;
-
       try {
         setIsLoading(true);
         const response = await fetch(`/api/v1/roles/${id}`, {
@@ -195,7 +194,7 @@ export const useRoles = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Rol eliminado correctamente", "success");
+          onToastRef.current("✓ Rol eliminado correctamente", "success");
           await loadRoles();
         } else {
           onToastRef.current(

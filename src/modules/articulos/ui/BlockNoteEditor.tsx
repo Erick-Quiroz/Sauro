@@ -34,10 +34,11 @@ export function BlockNoteEditor({
   };
 
   return (
-    <div className="w-full bg-white rounded-lg border border-gray-300">
+    <div className="w-full bg-white rounded-lg border border-gray-300 overflow-hidden">
       <BlockNoteView
         editor={editor}
         onChange={handleChange}
+        theme="light"
         className="min-h-96"
       />
     </div>

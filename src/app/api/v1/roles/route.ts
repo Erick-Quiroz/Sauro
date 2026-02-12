@@ -9,13 +9,11 @@ export async function GET(request: NextRequest) {
     const id = searchParams.get("id");
 
     if (id) {
-      // Obtener rol específico con usuarios
       const roleId = BigInt(id);
       const rol = await rolService.getRolWithUsers(roleId);
       return successResponse(rol);
     }
 
-    // Obtener todos los roles con paginación
     const pagination: PaginationParams = {
       page: parseInt(searchParams.get("page") || "1"),
       limit: parseInt(searchParams.get("limit") || "10"),
@@ -36,7 +34,6 @@ export async function POST(request: NextRequest) {
     const rol = await rolService.createRol(data);
     return successResponse(rol, 201);
   } catch (error) {
-    console.error("Error en POST /roles:", error);
     return errorResponse(error);
   }
 }

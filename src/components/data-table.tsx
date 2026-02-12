@@ -40,7 +40,6 @@ export function DataTable({
       return column.render(row[column.key], row);
     }
 
-    // Render status badge for activo field
     if (column.key === "activo") {
       const isActive = row[column.key] === true || row[column.key] === "true";
       return (
@@ -56,7 +55,6 @@ export function DataTable({
       );
     }
 
-    // Render status badge for estado/status fields (legacy)
     if (column.key === "estado" || column.key === "status") {
       const isActive = row[column.key] === "activo" || row[column.key] === true;
       return (

@@ -27,7 +27,6 @@ export default {
         border: "var(--border)",
         input: "var(--input)",
         ring: "var(--ring)",
-        // Colores personalizados SAURO
         "sauro-dark": "#021a1e",
         "sauro-green": "#4ade80",
         "sauro-green-light": "#dcfce7",
@@ -43,6 +42,20 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "Roboto", "Poppins", "system-ui", "sans-serif"],
+      },
+      keyframes: {
+        in: {
+          "0%": { transform: "translateX(100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        out: {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(100%)", opacity: "0" },
+        },
+      },
+      animation: {
+        in: "in 0.3s ease-out",
+        out: "out 0.3s ease-in",
       },
     },
   },

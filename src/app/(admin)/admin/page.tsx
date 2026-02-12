@@ -1,49 +1,42 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import {
-  Users,
-  Package,
-  FolderOpen,
-  Shield,
-  TrendingUp,
-} from 'lucide-react';
-import Link from 'next/link';
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Users, Package, FolderOpen, Shield, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminDashboard() {
   const stats = [
     {
-      title: 'Usuarios',
-      value: '48',
+      title: "Usuarios",
+      value: "48",
       icon: Users,
-      href: '/admin/usuarios',
-      color: 'sauro-green',
+      href: "/admin/usuarios",
+      color: "sauro-green",
     },
     {
-      title: 'Artículos',
-      value: '156',
+      title: "Artículos",
+      value: "156",
       icon: Package,
-      href: '/admin/articulos',
-      color: 'sauro-green',
+      href: "/admin/articulos",
+      color: "sauro-green",
     },
     {
-      title: 'Categorías',
-      value: '12',
+      title: "Categorías",
+      value: "12",
       icon: FolderOpen,
-      href: '/admin/categorias',
-      color: 'sauro-green',
+      href: "/admin/categorias",
+      color: "sauro-green",
     },
     {
-      title: 'Roles',
-      value: '5',
+      title: "Roles",
+      value: "5",
       icon: Shield,
-      href: '/admin/roles',
-      color: 'sauro-green',
+      href: "/admin/roles",
+      color: "sauro-green",
     },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-4xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-500 mt-1">
@@ -51,7 +44,6 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => {
           const Icon = stat.icon;
@@ -77,7 +69,6 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* Quick Actions */}
       <Card className="p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Acciones Rápidas
@@ -122,7 +113,6 @@ export default function AdminDashboard() {
         </div>
       </Card>
 
-      {/* Recent Activity */}
       <Card className="p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Actividad Reciente

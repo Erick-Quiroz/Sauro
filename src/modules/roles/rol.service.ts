@@ -9,7 +9,6 @@ export class RolService extends BaseService<Rol> {
   }
 
   async createRol(data: CreateRolDTO): Promise<Rol> {
-    // Validar que el nombre no exista
     const existingRol = await prisma.rol.findFirst({
       where: { nombre: data.nombre },
     });
@@ -27,7 +26,6 @@ export class RolService extends BaseService<Rol> {
   }
 
   async updateRol(id: bigint, data: UpdateRolDTO): Promise<Rol> {
-    // Si se cambia el nombre, validar que no exista otro rol con ese nombre
     if (data.nombre) {
       const existingRol = await prisma.rol.findFirst({
         where: {

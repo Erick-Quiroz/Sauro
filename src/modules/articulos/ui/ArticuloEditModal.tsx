@@ -35,7 +35,6 @@ export function ArticuloEditModal({
   const [titulo, setTitulo] = useState("");
   const [activo, setActivo] = useState(true);
 
-  // Cargar datos cuando se abre el modal para editar
   useEffect(() => {
     if (editingArticulo) {
       setTitulo(editingArticulo.titulo || "");
@@ -76,7 +75,6 @@ export function ArticuloEditModal({
           </p>
 
           <div className="space-y-4">
-            {/* Título */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Título <span className="text-red-500">*</span>
@@ -90,7 +88,6 @@ export function ArticuloEditModal({
               />
             </div>
 
-            {/* Activo */}
             <div className="flex items-center gap-3">
               <label className="text-sm font-medium text-gray-700">
                 Estado

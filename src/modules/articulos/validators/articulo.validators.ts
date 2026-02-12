@@ -5,7 +5,6 @@ export const validateArticulo = (
 ): ValidationError[] => {
   const errors: ValidationError[] = [];
 
-  // Validar título
   if (!data.titulo?.trim()) {
     errors.push({
       field: "titulo",
@@ -23,7 +22,6 @@ export const validateArticulo = (
     });
   }
 
-  // Validar categoría
   if (!data.id_categoria) {
     errors.push({
       field: "id_categoria",
@@ -31,7 +29,6 @@ export const validateArticulo = (
     });
   }
 
-  // Validar autor
   if (!data.create_by) {
     errors.push({
       field: "create_by",
@@ -39,7 +36,6 @@ export const validateArticulo = (
     });
   }
 
-  // Validar estado (activo)
   if (data.activo !== undefined && typeof data.activo !== "boolean") {
     errors.push({
       field: "activo",

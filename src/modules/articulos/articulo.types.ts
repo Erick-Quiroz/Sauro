@@ -31,24 +31,23 @@ export interface ValidationError {
   message: string;
 }
 
-// Tipos para BlockNote (para el editor)
 export interface BlockNoteBlock {
   id: string;
   type:
-    | 'paragraph'
-    | 'heading'
-    | 'bulletListItem'
-    | 'numberedListItem'
-    | 'codeBlock'
-    | 'image'
-    | 'table';
+    | "paragraph"
+    | "heading"
+    | "bulletListItem"
+    | "numberedListItem"
+    | "codeBlock"
+    | "image"
+    | "table";
   props: Record<string, any>;
   content?: BlockNoteContent[];
   children?: BlockNoteBlock[];
 }
 
 export interface BlockNoteContent {
-  type: 'text' | 'link' | 'image' | 'bold' | 'italic' | 'underline' | 'code';
+  type: "text" | "link" | "image" | "bold" | "italic" | "underline" | "code";
   text?: string;
   href?: string;
   src?: string;

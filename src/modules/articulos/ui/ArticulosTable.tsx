@@ -37,7 +37,6 @@ export function ArticulosTable({
 
   return (
     <div className="page-wrapper">
-      {/* Header */}
       <div className="page-header">
         <div className="header-title">
           <h1 className="header-title-text">Artículos</h1>
@@ -51,7 +50,6 @@ export function ArticulosTable({
         </Button>
       </div>
 
-      {/* Search Bar */}
       <div className="search-box">
         <Search className="text-gray-400 flex-shrink-0" size={20} />
         <Input
@@ -62,7 +60,6 @@ export function ArticulosTable({
         />
       </div>
 
-      {/* Table */}
       <div className="card-padded">
         <div className="table-container">
           <DataTable

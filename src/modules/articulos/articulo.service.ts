@@ -13,7 +13,6 @@ export class ArticuloService extends BaseService<ArticuloDTO> {
   }
 
   async createArticulo(data: CreateArticuloDTO): Promise<ArticuloDTO> {
-    // Validar que la categoría exista
     const categoria = await prisma.categorias.findUnique({
       where: { id: data.id_categoria },
     });
@@ -22,7 +21,6 @@ export class ArticuloService extends BaseService<ArticuloDTO> {
       throw new AppError("INVALID_CATEGORIA", 400, `La categoría no existe`);
     }
 
-    // Validar usuario creador si se proporciona
     if (data.create_by) {
       const usuario = await prisma.usuarios.findUnique({
         where: { id: data.create_by },
@@ -38,9 +36,8 @@ export class ArticuloService extends BaseService<ArticuloDTO> {
 
   async updateArticulo(
     id: bigint,
-    data: UpdateArticuloDTO
+    data: UpdateArticuloDTO,
   ): Promise<ArticuloDTO> {
-    // Validar usuario editor si se proporciona
     if (data.update_by) {
       const usuario = await prisma.usuarios.findUnique({
         where: { id: data.update_by },

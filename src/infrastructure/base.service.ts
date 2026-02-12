@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { AppError } from "@/shared/errors";
 import { PaginationParams, PaginatedResponse } from "@/shared/types";
 
-// Helper para serializar BigInt a string
 const bigintReplacer = (key: string, value: any) => {
   return typeof value === "bigint" ? value.toString() : value;
 };

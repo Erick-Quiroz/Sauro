@@ -53,7 +53,6 @@ export const useArticulos = (
     }
   }, []);
 
-  // Cargar datos solo una vez al montar el componente
   useEffect(() => {
     const loadInitialData = async () => {
       setIsLoading(true);
@@ -74,7 +73,7 @@ export const useArticulos = (
     };
 
     loadInitialData();
-  }, []); // Array vacío: ejecutar solo una vez
+  }, []);
 
   const filteredArticulos = articulos.filter((a) =>
     a.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -107,7 +106,6 @@ export const useArticulos = (
 
       try {
         setIsLoading(true);
-        // Limpiar datos: solo enviar campos necesarios
         const cleanData = {
           titulo: formData.titulo,
           contenido: formData.contenido || {},
@@ -123,7 +121,7 @@ export const useArticulos = (
 
         if (json.success) {
           onToast(
-            `Artículo "${formData.titulo}" creado correctamente`,
+            `✓ Artículo "${formData.titulo}" creado correctamente`,
             "success",
           );
           await refetch();
@@ -154,7 +152,6 @@ export const useArticulos = (
 
       try {
         setIsLoading(true);
-        // Limpiar datos: solo enviar campos necesarios
         const cleanData = {
           titulo: formData.titulo,
           contenido: formData.contenido || {},
@@ -169,7 +166,10 @@ export const useArticulos = (
         const json = await response.json();
 
         if (json.success) {
-          onToast("Artículo actualizado correctamente", "success");
+          onToast(
+            `✓ Artículo "${formData.titulo}" actualizado correctamente`,
+            "success",
+          );
           await refetch();
           closeModal();
         } else {
@@ -192,8 +192,6 @@ export const useArticulos = (
 
   const handleDelete = useCallback(
     async (id: bigint | string) => {
-      if (!confirm("¿Deseas eliminar este artículo?")) return;
-
       try {
         setIsLoading(true);
         const response = await fetch(`/api/v1/articulos/${id}`, {
@@ -203,7 +201,7 @@ export const useArticulos = (
         const json = await response.json();
 
         if (json.success) {
-          onToast("Artículo eliminado correctamente", "success");
+          onToast("✓ Artículo eliminado correctamente", "success");
           await refetch();
         } else {
           onToast(json.error?.message || "Error al eliminar artículo", "error");

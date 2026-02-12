@@ -4,7 +4,6 @@ export { AdminSidebar } from "./admin-sidebar";
 export { AdminMainContent } from "./admin-main-content";
 export { HamburgerMenu } from "./hamburger-menu";
 
-// Sidebar components
 export { Sidebar } from "./sidebar";
 export { SidebarHeader } from "./sidebar-header";
 export { SidebarMenu } from "./sidebar-menu";

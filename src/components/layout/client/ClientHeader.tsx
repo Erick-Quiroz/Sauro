@@ -18,12 +18,6 @@ export function ClientHeader() {
             />
           </Link>
 
-          {/* <Link
-            href="/login"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
-          >
-            Login
-          </Link> */}
           <Link
             href="/admin"
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors"

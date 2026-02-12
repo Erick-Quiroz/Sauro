@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
     const articulos = await articuloService.findAll(pagination);
     return successResponse(articulos);
   } catch (error) {
-    console.error("Error en GET /articulos:", error);
     return errorResponse(error);
   }
 }
@@ -34,7 +33,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    // Convertir id_categoria a BigInt si viene como string
     if (data.id_categoria && typeof data.id_categoria === "string") {
       data.id_categoria = BigInt(data.id_categoria);
     }

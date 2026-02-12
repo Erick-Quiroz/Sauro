@@ -1,11 +1,10 @@
 import { prisma } from "@/lib/prisma";
 
 async function main() {
-  console.log("🌱 Creando datos de prueba...");
-
-  // Crear Rol
-  const rol = await prisma.rol.create({
-    data: {
+  const rolAdmin = await prisma.rol.upsert({
+    where: { id: BigInt(1) },
+    update: {},
+    create: {
       nombre: "Administrador",
       permisos: {
         usuarios: true,
@@ -15,32 +14,44 @@ async function main() {
       },
     },
   });
-  console.log("✅ Rol creado:", rol);
 
-  // Crear Usuario
-  const usuario = await prisma.usuarios.create({
-    data: {
-      id_rol: rol.id,
+  const usuarioAdmin = await prisma.usuarios.upsert({
+    where: { email: "admin@sauro.com" },
+    update: {},
+    create: {
+      id_rol: rolAdmin.id,
+      nombre: "Admin",
+      apellido: "SAURO",
+      email: "admin@sauro.com",
+      password: "admin123",
+    },
+  });
+
+  const usuario = await prisma.usuarios.upsert({
+    where: { email: "juan@sauro.com" },
+    update: {},
+    create: {
+      id_rol: rolAdmin.id,
       nombre: "Juan",
       apellido: "Pérez",
-      email: "juan@example.com",
+      email: "juan@sauro.com",
       password: "password123",
     },
   });
-  console.log("✅ Usuario creado:", usuario);
 
-  // Crear Categoría
-  const categoria = await prisma.categorias.create({
-    data: {
+  const categoria = await prisma.categorias.upsert({
+    where: { id: BigInt(1) },
+    update: {},
+    create: {
       nombre: "Tecnología",
-      create_by: usuario.id,
+      create_by: usuarioAdmin.id,
     },
   });
-  console.log("✅ Categoría creada:", categoria);
 
-  // Crear Artículo
-  const articulo = await prisma.articulos.create({
-    data: {
+  const articulo = await prisma.articulos.upsert({
+    where: { id: BigInt(1) },
+    update: {},
+    create: {
       id_categoria: categoria.id,
       titulo: "Introducción a TypeScript",
       contenido: {
@@ -57,17 +68,13 @@ async function main() {
           },
         ],
       },
-      create_by: usuario.id,
+      create_by: usuarioAdmin.id,
     },
   });
-  console.log("✅ Artículo creado:", articulo);
-
-  console.log("✨ Datos de prueba creados exitosamente");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
     process.exit(1);
   })
   .finally(async () => {

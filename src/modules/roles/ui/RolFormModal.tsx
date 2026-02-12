@@ -175,7 +175,6 @@ export function RolFormModal({
         </p>
 
         <div className="space-y-6">
-          {/* Nombre */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Nombre del Rol <span className="text-red-500">*</span>
@@ -189,7 +188,6 @@ export function RolFormModal({
             />
           </div>
 
-          {/* Permisos */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Permisos por Módulo
@@ -269,7 +267,6 @@ export function RolFormModal({
             </p>
           </div>
 
-          {/* Activo */}
           <div className="flex items-center gap-3 pt-4 border-t border-gray-200">
             <label className="text-sm font-medium text-gray-700">
               Estado del Rol

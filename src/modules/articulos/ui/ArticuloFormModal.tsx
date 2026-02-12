@@ -27,10 +27,6 @@ export interface ArticuloFormModalProps {
   editingArticulo: Articulo | null;
 }
 
-/**
- * @deprecated Use ArticuloEditModal para editar artículos.
- * Para crear, usa router.push('/admin/articulos/editor') directamente.
- */
 export function ArticuloFormModal({
   isOpen,
   onClose,
@@ -47,14 +43,12 @@ export function ArticuloFormModal({
       return;
     }
 
-    // Guardar los datos en sessionStorage para que el editor los recupere
     const datos = {
       titulo,
       activo,
     };
     sessionStorage.setItem("articulo_borrador", JSON.stringify(datos));
 
-    // Navegar al editor
     if (editingArticulo?.id) {
       router.push(`/admin/articulos/editor?id=${editingArticulo.id}`);
     } else {
@@ -78,7 +72,6 @@ export function ArticuloFormModal({
           </p>
 
           <div className="space-y-4">
-            {/* Título */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Título <span className="text-red-500">*</span>
@@ -92,7 +85,6 @@ export function ArticuloFormModal({
               />
             </div>
 
-            {/* Activo */}
             <div className="flex items-center gap-3">
               <label className="text-sm font-medium text-gray-700">
                 Estado

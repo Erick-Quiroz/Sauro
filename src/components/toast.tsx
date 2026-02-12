@@ -1,22 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle, AlertCircle, X } from "lucide-react";
+import { CheckCircle, AlertCircle, X, Info } from "lucide-react";
 
 interface ToastProps {
   message: string;
-  type: "success" | "error";
+  type: "success" | "error" | "info";
   duration?: number;
   onClose?: () => void;
 }
 
 export function Toast({ message, type, duration = 4000, onClose }: ToastProps) {
   const [isVisible, setIsVisible] = useState(true);
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(false);
-      onClose?.();
+      setIsExiting(true);
+      setTimeout(() => {
+        setIsVisible(false);
+        onClose?.();
+      }, 300);
     }, duration);
 
     return () => clearTimeout(timer);
@@ -24,28 +28,43 @@ export function Toast({ message, type, duration = 4000, onClose }: ToastProps) {
 
   if (!isVisible) return null;
 
+  const styles = {
+    success:
+      "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/50",
+    error:
+      "bg-gradient-to-r from-red-500 to-rose-600 text-white shadow-lg shadow-red-500/50",
+    info: "bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg shadow-blue-500/50",
+  };
+
+  const icons = {
+    success: <CheckCircle size={22} className="flex-shrink-0" />,
+    error: <AlertCircle size={22} className="flex-shrink-0" />,
+    info: <Info size={22} className="flex-shrink-0" />,
+  };
+
   return (
     <div
-      className={`fixed top-4 right-4 flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2 ${
-        type === "success"
-          ? "bg-sauro-green text-white"
-          : "bg-sauro-red text-white"
+      className={`flex items-center gap-3 px-5 py-4 rounded-xl backdrop-blur-sm border border-white/20 transition-all duration-300 ${styles[type]} ${
+        isExiting
+          ? "animate-out fade-out slide-out-to-right-full"
+          : "animate-in fade-in slide-in-from-right-full"
       }`}
     >
-      {type === "success" ? (
-        <CheckCircle size={20} />
-      ) : (
-        <AlertCircle size={20} />
-      )}
-      <span className="font-medium">{message}</span>
+      <div className="flex items-center justify-center w-6 h-6">
+        {icons[type]}
+      </div>
+      <span className="font-semibold text-sm flex-1">{message}</span>
       <button
         onClick={() => {
-          setIsVisible(false);
-          onClose?.();
+          setIsExiting(true);
+          setTimeout(() => {
+            setIsVisible(false);
+            onClose?.();
+          }, 300);
         }}
-        className="ml-4 hover:opacity-80 transition"
+        className="ml-2 hover:bg-white/20 p-1.5 rounded-lg transition-colors"
       >
-        <X size={18} />
+        <X size={16} />
       </button>
     </div>
   );
@@ -55,21 +74,28 @@ interface ToastContainerProps {
   toasts: {
     id: string;
     message: string;
-    type: "success" | "error";
+    type: "success" | "error" | "info";
   }[];
   onRemove: (id: string) => void;
 }
 
 export function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-3">
-      {toasts.map((toast) => (
-        <Toast
+    <div className="fixed top-6 right-6 z-[9999] space-y-3 max-w-md">
+      {toasts.map((toast, index) => (
+        <div
           key={toast.id}
-          message={toast.message}
-          type={toast.type}
-          onClose={() => onRemove(toast.id)}
-        />
+          style={{
+            transform: `translateY(${index * 8}px)`,
+            zIndex: 9999 - index,
+          }}
+        >
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => onRemove(toast.id)}
+          />
+        </div>
       ))}
     </div>
   );
@@ -80,12 +106,15 @@ export function useToast() {
     {
       id: string;
       message: string;
-      type: "success" | "error";
+      type: "success" | "error" | "info";
     }[]
   >([]);
 
-  const showToast = (message: string, type: "success" | "error") => {
-    const id = Date.now().toString();
+  const showToast = (
+    message: string,
+    type: "success" | "error" | "info" = "info",
+  ) => {
+    const id = Date.now().toString() + Math.random();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));

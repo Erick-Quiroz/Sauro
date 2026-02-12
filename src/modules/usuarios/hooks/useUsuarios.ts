@@ -45,7 +45,6 @@ export const useUsuarios = (
 
   const itemsPerPage = 10;
 
-  // Función para cargar datos
   const loadUsuarios = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -64,7 +63,6 @@ export const useUsuarios = (
     }
   }, []);
 
-  // Cargar datos solo una vez al montar
   useEffect(() => {
     loadUsuarios();
   }, [loadUsuarios]);
@@ -123,7 +121,7 @@ export const useUsuarios = (
 
         if (json.success) {
           onToastRef.current(
-            `Usuario "${formData.nombre} ${formData.apellido}" creado correctamente`,
+            `✓ Usuario "${formData.nombre} ${formData.apellido}" creado correctamente`,
             "success",
           );
           await loadUsuarios();
@@ -157,14 +155,18 @@ export const useUsuarios = (
 
       try {
         setIsLoading(true);
-        const cleanData = {
+        const cleanData: any = {
           id_rol: formData.id_rol ? BigInt(formData.id_rol) : undefined,
           nombre: formData.nombre,
           apellido: formData.apellido,
           email: formData.email,
-          password: formData.password || "",
           activo: formData.activo !== false,
         };
+
+        if (formData.password && formData.password.trim() !== "") {
+          cleanData.password = formData.password;
+        }
+
         const response = await fetch(`/api/v1/usuarios/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -176,7 +178,10 @@ export const useUsuarios = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Usuario actualizado correctamente", "success");
+          onToastRef.current(
+            `✓ Usuario "${formData.nombre} ${formData.apellido}" actualizado correctamente`,
+            "success",
+          );
           await loadUsuarios();
           closeModal();
         } else {
@@ -199,8 +204,6 @@ export const useUsuarios = (
 
   const handleDelete = useCallback(
     async (id: bigint | string) => {
-      if (!confirm("¿Deseas eliminar este usuario?")) return;
-
       try {
         setIsLoading(true);
         const response = await fetch(`/api/v1/usuarios/${id}`, {
@@ -210,7 +213,7 @@ export const useUsuarios = (
         const json = await response.json();
 
         if (json.success) {
-          onToastRef.current("Usuario eliminado correctamente", "success");
+          onToastRef.current("✓ Usuario eliminado correctamente", "success");
           await loadUsuarios();
         } else {
           onToastRef.current(

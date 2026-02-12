@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -62,841 +62,98 @@
     font-family:
       -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
   }
-}
 
-/* ==========================================
-   LAYOUT COMPONENTS
-   ========================================== */
-
-@layer components {
-  /* Contenedor principal */
-  .app-container {
-    @apply min-h-screen bg-white w-full;
-  }
-
-  /* Contenedor de página con espaciado responsivo */
-  .page-wrapper {
-    @apply space-y-4 sm:space-y-6 md:space-y-8 w-full;
-  }
-
-  /* Grid responsivo principal - Auto ajusta para todos los dispositivos */
-  .main-grid {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 auto-rows-max;
-  }
-
-  /* Contenedor de contenido principal */
-  .main-content {
-    @apply col-span-1 sm:col-span-2 lg:col-span-3 space-y-3 sm:space-y-4 md:space-y-6 w-full;
-  }
-
-  /* Barra lateral sticky - Responsiva */
-  .sidebar-sticky {
-    @apply col-span-1 w-full;
-  }
-
-  .sidebar-sticky-inner {
-    @apply sticky top-4 sm:top-6 md:top-8 space-y-3 sm:space-y-4 w-full;
-  }
-
-  /* ==========================================
-     HEADER STYLES - Completamente Responsivo
-     ========================================== */
-
-  /* Header con botones - Flexbox adaptable */
-  .page-header {
-    @apply w-full flex flex-col gap-3 sm:gap-4 md:gap-6 sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 md:p-6;
-  }
-
-  /* Sección de título - Responsiva */
-  .header-title {
-    @apply space-y-1 sm:space-y-2 flex-1 min-w-0;
-  }
-
-  .header-title-text {
-    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 truncate sm:truncate;
-  }
-
-  .header-title-subtitle {
-    @apply text-xs sm:text-sm md:text-base text-gray-500 mt-0 sm:mt-1 line-clamp-2;
-  }
-
-  /* Sección de botones del header - Flex responsivo */
-  .header-actions {
-    @apply flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 w-full sm:w-auto;
-  }
-
-  /* ==========================================
-     NAVBAR - HAMBURGER MENU RESPONSIVE
-     ========================================== */
-
-  /* Botón hamburguesa */
-  .hamburger-button {
-    @apply fixed top-4 left-4 z-40 p-2 rounded-lg bg-sauro-dark text-white hover:bg-opacity-90 transition-all duration-300;
-  }
-
-  /* Overlay del menú (mobile) */
-  .menu-overlay {
-    @apply fixed inset-0 bg-black/50 z-30 transition-opacity duration-300;
-  }
-
-  /* Sidebar responsivo - Perfecto para mobile y desktop */
-  .sidebar-responsive {
-    @apply w-64 bg-sauro-dark text-white flex flex-col
-           fixed left-0 top-0 h-screen z-30
-           transition-transform duration-300 ease-in-out
-           md:static md:h-screen md:z-auto md:translate-x-0
-           overflow-y-auto;
-  }
-
-  .sidebar-responsive.open {
-    @apply translate-x-0;
-  }
-
-  .sidebar-responsive.closed {
-    @apply -translate-x-full md:translate-x-0;
-  }
-
-  /* Main content responsivo - Flex completo */
-  .main-content-responsive {
-    @apply flex-1 w-full min-h-screen overflow-y-auto transition-all duration-300;
-  }
-
-  /* Admin container - Layout flex correcto */
-  .admin-container {
-    @apply flex flex-col md:flex-row min-h-screen w-full overflow-hidden;
-  }
-
-  /* Asegurar que no haya scroll horizontal nunca */
   body,
   html {
     @apply overflow-x-hidden;
   }
+}
 
-  /* ==========================================
-     CARD STYLES - Completamente Responsivo
-     ========================================== */
+/* ==========================================
+   USED COMPONENT STYLES
+   ========================================== */
 
-  /* Card estándar - Responsivo */
+@layer components {
+  /* Page wrapper */
+  .page-wrapper {
+    @apply space-y-4 sm:space-y-6 md:space-y-8 w-full;
+  }
+
+  /* Card styles */
   .card-base {
     @apply w-full bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200;
   }
 
-  /* Card con padding responsivo */
   .card-padded {
     @apply card-base p-3 sm:p-4 md:p-6 lg:p-8;
   }
 
-  /* Card destacada */
-  .card-highlight {
-    @apply card-base p-3 sm:p-4 md:p-6 border-2 border-green-200 bg-green-50;
-  }
-
-  /* Card con fondo de información */
-  .card-info {
-    @apply card-base p-3 sm:p-4 md:p-6 bg-blue-50 border-blue-200;
-  }
-
-  /* ==========================================
-     FORM STYLES - Completamente Responsivo
-     ========================================== */
-
-  /* Contenedor de formulario */
-  .form-group {
-    @apply w-full space-y-3 sm:space-y-4 md:space-y-6;
-  }
-
-  /* Grupo de campo */
-  .field-group {
-    @apply w-full space-y-1 sm:space-y-2;
-  }
-
-  /* Label estándar */
-  .field-label {
-    @apply block text-xs sm:text-sm md:text-base font-medium text-gray-700 truncate;
-  }
-
-  .required-mark {
-    @apply text-red-500;
-  }
-
-  /* Input estándar - Responsivo */
-  .input-base {
-    @apply w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm md:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all;
-  }
-
-  /* Input grande */
-  .input-large {
-    @apply input-base text-lg sm:text-xl md:text-2xl font-bold;
-  }
-
-  /* Textarea responsivo */
-  .textarea-base {
-    @apply w-full px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-4 border border-gray-300 rounded-lg text-xs sm:text-sm md:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all min-h-20 sm:min-h-24 md:min-h-32;
-  }
-
-  /* Select responsivo */
-  .select-base {
-    @apply w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 border border-gray-300 rounded-lg text-xs sm:text-sm md:text-base bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all;
-  }
-
-  /* ==========================================
-     BUTTON STYLES - Completamente Responsivo
-     ========================================== */
-
-  /* Botón primario - Responsivo */
+  /* Button styles */
   .btn-primary {
     @apply px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 bg-green-600 hover:bg-green-700 text-white text-xs sm:text-sm md:text-base font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 whitespace-nowrap;
   }
 
-  /* Botón primario pequeño */
-  .btn-primary-sm {
-    @apply px-2 sm:px-3 py-1 text-xs sm:text-sm bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors;
-  }
-
-  /* Botón secundario */
   .btn-secondary {
     @apply px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 border border-gray-300 hover:bg-gray-50 text-gray-700 text-xs sm:text-sm md:text-base font-medium rounded-lg transition-all duration-200 active:scale-95;
   }
 
-  /* Botón terciario */
-  .btn-tertiary {
-    @apply px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 hover:bg-gray-100 text-gray-700 text-xs sm:text-sm md:text-base font-medium rounded-lg transition-all duration-200 active:scale-95;
-  }
-
-  /* Botón con icono */
-  .btn-with-icon {
-    @apply flex items-center justify-center gap-1 sm:gap-2;
-  }
-
-  /* Botón destructivo */
-  .btn-danger {
-    @apply px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-3 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm md:text-base font-semibold rounded-lg transition-all duration-200 active:scale-95;
-  }
-
-  /* ==========================================
-     TABLE STYLES - Completamente Responsivo
-     ========================================== */
-
-  /* Contenedor de tabla - Scroll responsivo */
+  /* Table styles */
   .table-container {
     @apply w-full overflow-x-auto -mx-3 sm:-mx-4 md:-mx-6 px-3 sm:px-4 md:px-6;
   }
 
-  /* Tabla estándar */
-  .table-base {
-    @apply w-full min-w-full border-collapse;
-  }
-
-  /* Header de tabla */
   .table-header {
     @apply bg-gray-50 border-b border-gray-200 sticky top-0 z-10;
   }
 
-  /* Header cell - Responsivo */
   .table-header-cell {
     @apply px-2 sm:px-3 md:px-6 py-2 sm:py-3 md:py-4 text-left text-xs sm:text-sm md:text-base font-semibold text-gray-900 whitespace-nowrap;
   }
 
-  /* Fila de tabla */
   .table-row {
     @apply border-b border-gray-200 hover:bg-gray-50 transition-colors duration-150;
   }
 
-  /* Cell de tabla - Responsivo */
   .table-cell {
     @apply px-2 sm:px-3 md:px-6 py-2 sm:py-3 md:py-4 text-xs sm:text-sm md:text-base text-gray-700;
   }
 
-  /* ==========================================
-     MODAL STYLES - Completamente Responsivo
-     ========================================== */
-
-  /* Overlay del modal */
-  .modal-overlay {
-    @apply fixed inset-0 z-40 bg-black/50 backdrop-blur-sm;
-  }
-
-  /* Contenedor del modal */
-  .modal-container {
-    @apply fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4;
-  }
-
-  /* Contenido del modal - Responsivo */
-  .modal-content {
-    @apply w-full bg-white rounded-lg shadow-lg max-w-xs sm:max-w-sm md:max-w-md p-3 sm:p-4 md:p-6 max-h-[90vh] overflow-y-auto;
-  }
-
-  /* Modal título */
-  .modal-title {
-    @apply text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-1 sm:mb-2;
-  }
-
-  /* Modal descripción */
-  .modal-description {
-    @apply text-xs sm:text-sm md:text-base text-gray-500 mb-4 sm:mb-6;
-  }
-
-  /* Modal acciones - Flex responsivo */
-  .modal-actions {
-    @apply flex flex-col sm:flex-row gap-2 sm:gap-3 mt-4 sm:mt-6;
-  }
-
-  /* Modal botón */
-  .modal-button {
-    @apply flex-1 px-3 sm:px-4 py-2 sm:py-3 font-semibold rounded-lg transition-colors;
-  }
-
-  /* ==========================================
-     SEARCH & FILTER STYLES - Responsivo
-     ========================================== */
-
-  /* Contenedor de búsqueda */
+  /* Search styles */
   .search-box {
     @apply w-full flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 bg-white rounded-lg border border-gray-300 px-2 sm:px-3 md:px-4 py-2 sm:py-3;
   }
 
-  /* Entrada de búsqueda */
   .search-input {
     @apply flex-1 w-full bg-transparent outline-none text-xs sm:text-sm md:text-base text-gray-700 placeholder-gray-400;
   }
 
-  /* Icono de búsqueda */
-  .search-icon {
-    @apply w-4 h-4 sm:w-5 sm:h-5 text-gray-400 flex-shrink-0;
+  /* BlockNote Editor - Force Light Theme */
+  .bn-container,
+  .bn-editor {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
   }
 
-  /* Sección de filtros - Flex responsivo */
-  .filter-section {
-    @apply w-full flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6;
+  .bn-block-content {
+    color: #1f2937 !important;
   }
 
-  /* Contenedor de filtro */
-  .filter-container {
-    @apply flex-1 flex flex-col gap-1 sm:gap-2 min-w-0;
+  .bn-editor [data-content-type] {
+    color: #1f2937 !important;
   }
 
-  /* Etiqueta de filtro */
-  .filter-label {
-    @apply text-xs sm:text-sm font-medium text-gray-700;
+  .ProseMirror {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
   }
 
-  /* Select de filtro */
-  .filter-select {
-    @apply w-full px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-300 rounded-lg text-xs sm:text-sm;
+  .bn-editor .ProseMirror p {
+    color: #1f2937 !important;
   }
 
-  /* ==========================================
-     BADGE STYLES - Responsivo
-     ========================================== */
-
-  /* Badge base */
-  .badge-base {
-    @apply inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap;
-  }
-
-  /* Badge success */
-  .badge-success {
-    @apply badge-base bg-green-100 text-green-800;
-  }
-
-  /* Badge info */
-  .badge-info {
-    @apply badge-base bg-blue-100 text-blue-800;
-  }
-
-  /* Badge warning */
-  .badge-warning {
-    @apply badge-base bg-yellow-100 text-yellow-800;
-  }
-
-  /* Badge danger */
-  .badge-danger {
-    @apply badge-base bg-red-100 text-red-800;
-  }
-
-  /* Badge default */
-  .badge-default {
-    @apply badge-base bg-gray-100 text-gray-800;
-  }
-
-  /* Badge grande */
-  .badge-lg {
-    @apply px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base;
-  }
-
-  /* ==========================================
-     TOAST STYLES - Responsivo
-     ========================================== */
-
-  /* Contenedor de toast */
-  .toast-container {
-    @apply fixed bottom-3 sm:bottom-4 right-3 sm:right-4 z-50 max-w-xs sm:max-w-sm space-y-2 sm:space-y-3;
-  }
-
-  /* Toast base */
-  .toast-base {
-    @apply flex items-start sm:items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-lg text-white text-xs sm:text-sm;
-  }
-
-  /* Toast success */
-  .toast-success {
-    @apply toast-base bg-green-500;
-  }
-
-  /* Toast error */
-  .toast-error {
-    @apply toast-base bg-red-500;
-  }
-
-  /* Toast info */
-  .toast-info {
-    @apply toast-base bg-blue-500;
-  }
-
-  /* Icono del toast */
-  .toast-icon {
-    @apply w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 sm:mt-0;
-  }
-
-  /* Mensaje del toast */
-  .toast-message {
-    @apply flex-1 font-medium;
-  }
-
-  /* Botón de cerrar toast */
-  .toast-close {
-    @apply flex-shrink-0 text-white hover:bg-white/20 rounded p-1 transition-colors ml-2 sm:ml-3;
-  }
-
-  /* ==========================================
-     EDITOR STYLES - Responsivo
-     ========================================== */
-
-  /* Contenedor del editor */
-  .editor-container {
-    @apply w-full bg-white rounded-lg border border-gray-300 overflow-hidden;
-  }
-
-  /* Barra de herramientas del editor */
-  .editor-toolbar {
-    @apply flex flex-wrap items-center gap-0.5 sm:gap-1 p-2 sm:p-3 border-b border-gray-200 bg-gray-50 overflow-x-auto;
-  }
-
-  /* Botón de la barra de herramientas */
-  .editor-toolbar-button {
-    @apply p-1 sm:p-2 hover:bg-gray-200 rounded transition-colors text-xs sm:text-sm font-medium flex-shrink-0;
-  }
-
-  /* Área del editor */
-  .editor-area {
-    @apply w-full min-h-48 sm:min-h-64 md:min-h-96 p-3 sm:p-4 text-xs sm:text-sm md:text-base text-gray-700 prose prose-sm max-w-none;
-  }
-
-  /* Texto del editor */
-  .editor-text {
-    @apply text-sm sm:text-base leading-relaxed;
-  }
-
-  /* Bloque del editor */
-  .editor-block {
-    @apply py-1 sm:py-2;
-  }
-
-  /* Separador de la barra de herramientas */
-  .editor-toolbar-divider {
-    @apply w-px h-4 sm:h-6 bg-gray-300;
-  }
-
-  /* ==========================================
-     PANEL STYLES - Responsivo
-     ========================================== */
-
-  /* Contenedor del panel */
-  .panel-container {
-    @apply w-full bg-white rounded-lg border border-gray-300;
-  }
-
-  /* Título del panel */
-  .panel-title {
-    @apply text-base sm:text-lg md:text-xl font-bold text-gray-900 border-b border-gray-200 px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4;
-  }
-
-  /* Sección del panel */
-  .panel-section {
-    @apply px-3 sm:px-4 md:px-6 py-2 sm:py-3 md:py-4;
-  }
-
-  /* Texto de la sección */
-  .panel-section-text {
-    @apply text-xs sm:text-sm md:text-base text-gray-600;
-  }
-
-  /* Fila del panel */
-  .panel-row {
-    @apply flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 sm:py-3 border-b border-gray-200 last:border-b-0 gap-2 sm:gap-0;
-  }
-
-  /* Etiqueta del panel */
-  .panel-label {
-    @apply text-xs sm:text-sm md:text-base font-medium text-gray-700;
-  }
-
-  /* Valor del panel */
-  .panel-value {
-    @apply text-xs sm:text-sm md:text-base text-gray-900 font-semibold;
-  }
-
-  /* Divisor del panel */
-  .panel-divider {
-    @apply h-px bg-gray-200;
-  }
-
-  /* ==========================================
-     LOADING STYLES - Responsivo
-     ========================================== */
-
-  /* Spinner cargando */
-  .loading-spinner {
-    @apply w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 border-3 sm:border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin;
-  }
-
-  /* Spinner grande */
-  .loading-spinner-lg {
-    @apply w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16;
-  }
-
-  /* Spinner pequeño */
-  .loading-spinner-sm {
-    @apply w-4 h-4;
-  }
-
-  /* Contenedor de cargando */
-  .loading-container {
-    @apply flex flex-col items-center justify-center py-6 sm:py-8 md:py-12 gap-3 sm:gap-4;
-  }
-
-  /* Texto de cargando */
-  .loading-text {
-    @apply text-center text-gray-600 text-xs sm:text-sm md:text-base;
-  }
-
-  /* Estado vacío */
-  .empty-state {
-    @apply flex flex-col items-center justify-center py-8 sm:py-10 md:py-12 px-3 sm:px-4 text-center gap-2 sm:gap-3;
-  }
-
-  /* Icono de estado vacío */
-  .empty-state-icon {
-    @apply w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 text-gray-300 mb-2 sm:mb-3;
-  }
-
-  /* Título de estado vacío */
-  .empty-state-title {
-    @apply text-sm sm:text-base md:text-lg font-semibold text-gray-700 mb-1 sm:mb-2;
-  }
-
-  /* Descripción de estado vacío */
-  .empty-state-description {
-    @apply text-xs sm:text-sm md:text-base text-gray-500;
-  }
-
-  /* ==========================================
-     RESPONSIVE FLEX UTILITIES - Para todos los dispositivos
-     ========================================== */
-
-  /* Flexbox responsivo - Base */
-  .flex-responsive {
-    @apply w-full flex flex-col gap-3 sm:gap-4 md:gap-6 md:flex-row md:items-center;
-  }
-
-  /* Flexbox responsivo - Centrado */
-  .flex-responsive-center {
-    @apply w-full flex flex-col gap-3 sm:gap-4 md:gap-6 md:flex-row md:items-center md:justify-center;
-  }
-
-  /* Flexbox responsivo - Wrap */
-  .flex-responsive-wrap {
-    @apply w-full flex flex-wrap gap-2 sm:gap-3 md:gap-4;
-  }
-
-  /* Flexbox responsivo - Vertical */
-  .flex-responsive-vertical {
-    @apply w-full flex flex-col gap-2 sm:gap-3 md:gap-4;
-  }
-
-  /* Grid responsivo 2 columnas */
-  .grid-responsive-2 {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6;
-  }
-
-  /* Grid responsivo 3 columnas */
-  .grid-responsive-3 {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6;
-  }
-
-  /* Grid responsivo 4 columnas */
-  .grid-responsive-4 {
-    @apply w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6;
-  }
-
-  /* Stack móvil */
-  .stack-mobile {
-    @apply w-full flex flex-col gap-2 sm:gap-3 md:flex-row md:gap-4;
-  }
-
-  /* Contenedor responsivo */
-  .container-responsive {
-    @apply w-full px-3 sm:px-4 md:px-6 lg:px-8 mx-auto max-w-full;
-  }
-
-  /* Padding responsivo */
-  .padding-responsive {
-    @apply p-3 sm:p-4 md:p-6 lg:p-8;
-  }
-
-  /* Margen responsivo */
-  .margin-responsive {
-    @apply my-3 sm:my-4 md:my-6 lg:my-8;
-  }
-
-  /* ==========================================
-     TYPOGRAPHY STYLES - Responsivo
-     ========================================== */
-
-  /* Título 1 */
-  .title-h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900;
-  }
-
-  /* Título 2 */
-  .title-h2 {
-    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900;
-  }
-
-  /* Título 3 */
-  .title-h3 {
-    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900;
-  }
-
-  /* Título 4 */
-  .title-h4 {
-    @apply text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900;
-  }
-
-  /* Subtítulo */
-  .subtitle {
-    @apply text-sm sm:text-base md:text-lg font-semibold text-gray-700;
-  }
-
-  /* Texto del cuerpo */
-  .body-text {
-    @apply text-xs sm:text-sm md:text-base text-gray-700 leading-relaxed;
-  }
-
-  /* Texto pequeño */
-  .text-small {
-    @apply text-xs sm:text-sm text-gray-600;
-  }
-
-  /* Texto extra pequeño */
-  .text-xs-custom {
-    @apply text-xs text-gray-500;
-  }
-
-  /* Texto bold */
-  .text-bold {
-    @apply font-semibold text-gray-900;
-  }
-
-  /* Texto muted */
-  .text-muted {
-    @apply text-gray-500 text-xs sm:text-sm;
-  }
-
-  /* Texto success */
-  .text-success {
-    @apply text-green-700 font-medium text-xs sm:text-sm;
-  }
-
-  /* Texto error */
-  .text-error {
-    @apply text-red-700 font-medium text-xs sm:text-sm;
-  }
-
-  /* Texto warning */
-  .text-warning {
-    @apply text-yellow-700 font-medium text-xs sm:text-sm;
-  }
-
-  /* Texto info */
-  .text-info {
-    @apply text-blue-700 font-medium text-xs sm:text-sm;
-  }
-
-  /* ==========================================
-     UTILITY CLASSES - Responsivo
-     ========================================== */
-
-  /* Enlace base */
-  .link-base {
-    @apply text-blue-600 hover:text-blue-800 underline transition-colors text-xs sm:text-sm md:text-base;
-  }
-
-  /* Enlace sin underline */
-  .link-no-underline {
-    @apply text-blue-600 hover:text-blue-800 transition-colors text-xs sm:text-sm md:text-base;
-  }
-
-  /* Icono base */
-  .icon-base {
-    @apply w-4 h-4 sm:w-5 sm:h-5;
-  }
-
-  /* Icono grande */
-  .icon-lg {
-    @apply w-6 h-6 sm:w-8 sm:h-8;
-  }
-
-  /* Icono pequeño */
-  .icon-sm {
-    @apply w-3 h-3 sm:w-4 sm:h-4;
-  }
-
-  /* Contenedor de icono */
-  .icon-container {
-    @apply inline-flex items-center justify-center flex-shrink-0;
-  }
-
-  /* Borde base */
-  .border-base {
-    @apply border border-gray-300;
-  }
-
-  /* Borde redondeado */
-  .border-rounded {
-    @apply rounded-lg;
-  }
-
-  /* Borde superior */
-  .border-top {
-    @apply border-t border-gray-300;
-  }
-
-  /* Sombra base */
-  .shadow-base {
-    @apply shadow-md;
-  }
-
-  /* Sombra grande */
-  .shadow-lg-custom {
-    @apply shadow-lg;
-  }
-
-  /* Espaciado base */
-  .spacing-base {
-    @apply gap-3 sm:gap-4 md:gap-6;
-  }
-
-  /* Opacidad hover */
-  .opacity-hover {
-    @apply opacity-80 hover:opacity-100 transition-opacity;
-  }
-
-  /* Cursor puntero */
-  .cursor-pointer-custom {
-    @apply cursor-pointer;
-  }
-
-  /* Transición base */
-  .transition-base {
-    @apply transition-all duration-200;
-  }
-
-  /* Focus outline */
-  .focus-outline {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
-  }
-
-  /* Responsive Display Helpers */
-  .block-mobile {
-    @apply block sm:hidden;
-  }
-
-  .hidden-mobile {
-    @apply hidden sm:block;
-  }
-
-  .block-tablet {
-    @apply hidden sm:block md:hidden;
-  }
-
-  .block-desktop {
-    @apply hidden md:block;
-  }
-
-  /* Responsive Text Truncate */
-  .truncate-responsive {
-    @apply truncate sm:truncate-none;
-  }
-
-  /* Responsive Line Clamp */
-  .line-clamp-responsive {
-    @apply line-clamp-2 sm:line-clamp-3 md:line-clamp-4;
-  }
-}
-
-/* ==========================================
-   RESPONSIVE MEDIA QUERIES
-   ========================================== */
-
-/* Mobile first - Base styles */
-@media (max-width: 640px) {
-  .hidden-mobile {
-    @apply hidden;
-  }
-
-  .show-mobile {
-    @apply block;
-  }
-}
-
-/* Tablets - Small screens (641px - 1024px) */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .hidden-tablet {
-    @apply hidden;
-  }
-
-  .show-tablet {
-    @apply block;
-  }
-}
-
-/* Desktop - Large screens (1025px and up) */
-@media (min-width: 1025px) {
-  .hidden-desktop {
-    @apply hidden;
-  }
-
-  .show-desktop {
-    @apply block;
-  }
-}
-
-/* Extra small devices */
-@media (max-width: 374px) {
-  .text-xs-device {
-    font-size: 0.75rem;
-    line-height: 1rem;
-  }
-
-  .p-responsive-xs {
-    padding: 0.5rem;
-  }
-}
-
-/* Large devices */
-@media (min-width: 1536px) {
-  .max-w-container {
-    @apply max-w-7xl mx-auto;
+  .bn-editor .ProseMirror h1,
+  .bn-editor .ProseMirror h2,
+  .bn-editor .ProseMirror h3 {
+    color: #111827 !important;
   }
 }

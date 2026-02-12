@@ -32,13 +32,11 @@ export function CategoriaFormModal({
   onSubmit,
   editingCategoria,
 }: CategoriaFormModalProps) {
-  // Memoizar para evitar recalcular constantemente
   const isEditing = useMemo(
     () => editingCategoria && editingCategoria.id,
     [editingCategoria],
   );
 
-  // Preparar los campos del formulario con los valores correctos
   const fields = useMemo(() => {
     if (isEditing && editingCategoria) {
       return formFields.map((f) => ({

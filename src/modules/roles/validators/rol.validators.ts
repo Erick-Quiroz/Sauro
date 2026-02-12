@@ -3,7 +3,6 @@ import { ValidationError, CreateRolDTO } from "../rol.types";
 export const validateRol = (data: CreateRolDTO): ValidationError[] => {
   const errors: ValidationError[] = [];
 
-  // Validar nombre
   if (!data.nombre?.trim()) {
     errors.push({
       field: "nombre",

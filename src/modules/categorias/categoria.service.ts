@@ -13,7 +13,6 @@ export class CategoriaService extends BaseService<CategoriaDTO> {
   }
 
   async createCategoria(data: CreateCategoriaDTO): Promise<CategoriaDTO> {
-    // Validar que el usuario creador exista si se proporciona
     if (data.create_by) {
       const usuario = await prisma.usuarios.findUnique({
         where: { id: data.create_by },
@@ -30,7 +29,6 @@ export class CategoriaService extends BaseService<CategoriaDTO> {
     id: bigint,
     data: UpdateCategoriaDTO,
   ): Promise<CategoriaDTO> {
-    // Validar que el usuario editor exista si se proporciona
     if (data.update_by) {
       const usuario = await prisma.usuarios.findUnique({
         where: { id: data.update_by },

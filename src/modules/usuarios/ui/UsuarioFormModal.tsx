@@ -35,7 +35,6 @@ export function UsuarioFormModal({
           setRoles(json.data.items || []);
         }
       } catch (error) {
-        console.error("Error al cargar roles:", error);
       } finally {
         setIsLoadingRoles(false);
       }
@@ -84,17 +83,15 @@ export function UsuarioFormModal({
         ? editingUsuario?.id_rol?.toString() || ""
         : "",
     },
-    ...(hasEditingData
-      ? []
-      : [
-          {
-            name: "password",
-            label: "Contraseña",
-            type: "password" as const,
-            placeholder: "••••••••",
-            required: true,
-          },
-        ]),
+    {
+      name: "password",
+      label: hasEditingData ? "Nueva Contraseña (opcional)" : "Contraseña",
+      type: "password" as const,
+      placeholder: hasEditingData
+        ? "Dejar vacío para mantener la actual"
+        : "••••••••",
+      required: !hasEditingData,
+    },
     {
       name: "activo",
       label: "Activo",
@@ -104,14 +101,19 @@ export function UsuarioFormModal({
   ];
 
   const handleSubmit = (formData: any) => {
-    const submitData: CreateUsuarioDTO = {
+    const submitData: any = {
       nombre: formData.nombre,
       apellido: formData.apellido,
       email: formData.email,
       id_rol: formData.id_rol,
-      password: formData.password || "",
       activo: formData.activo !== false,
     };
+
+    if (formData.password && formData.password.trim() !== "") {
+      submitData.password = formData.password;
+    } else if (!hasEditingData) {
+      submitData.password = "";
+    }
 
     onSubmit(submitData);
   };

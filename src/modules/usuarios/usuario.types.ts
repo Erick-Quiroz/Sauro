@@ -33,7 +33,6 @@ export interface ValidationError {
   message: string;
 }
 
-// Tipos legacy para compatibilidad
 export interface UsuarioDTO {
   id?: bigint;
   id_rol: bigint;

@@ -38,7 +38,6 @@ export function UsuariosTable({
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-4xl font-bold text-gray-900">Usuarios</h1>
@@ -55,7 +54,6 @@ export function UsuariosTable({
         </Button>
       </div>
 
-      {/* Search Bar */}
       <Card className="p-4">
         <div className="flex items-center gap-2">
           <Search className="text-gray-400" size={20} />
@@ -68,7 +66,6 @@ export function UsuariosTable({
         </div>
       </Card>
 
-      {/* Table */}
       <Card className="p-6">
         <DataTable
           columns={columns}
