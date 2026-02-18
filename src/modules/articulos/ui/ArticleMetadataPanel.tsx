@@ -16,6 +16,8 @@ export interface ArticleMetadataPanelProps {
   onCategoriaChange?: (categoria: string) => void;
   activo?: boolean;
   onActivoChange?: (activo: boolean) => void;
+  esPrivado?: boolean;
+  onEsPrivadoChange?: (esPrivado: boolean) => void;
 }
 
 interface Categoria {
@@ -28,6 +30,8 @@ export function ArticleMetadataPanel({
   onCategoriaChange,
   activo = true,
   onActivoChange,
+  esPrivado = false,
+  onEsPrivadoChange,
 }: ArticleMetadataPanelProps) {
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -120,6 +124,35 @@ export function ArticleMetadataPanel({
         </div>
       </div>
 
+      <div className="pt-4 border-t border-gray-200">
+        <div className="flex items-center gap-3">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Visibilidad
+            </label>
+          </div>
+          <button
+            onClick={() => onEsPrivadoChange?.(!esPrivado)}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              esPrivado ? "bg-orange-500" : "bg-blue-500"
+            }`}
+          >
+            <span
+              className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                esPrivado ? "translate-x-6" : "translate-x-1"
+              }`}
+            />
+          </button>
+          <span
+            className={`text-sm font-medium ${
+              esPrivado ? "text-orange-500" : "text-blue-500"
+            }`}
+          >
+            {esPrivado ? "Privado" : "Público"}
+          </span>
+        </div>
+      </div>
+
       <div className="pt-4 border-t border-gray-200 space-y-3 text-xs text-gray-500">
         <div>
           <p className="font-medium text-gray-700">Consejos</p>
@@ -127,6 +160,7 @@ export function ArticleMetadataPanel({
             <li>Usa títulos descriptivos y atractivos</li>
             <li>Elige la categoría más relevante</li>
             <li>Los artículos activos serán visibles en el sitio</li>
+            <li>Los artículos privados solo se ven con login</li>
           </ul>
         </div>
       </div>

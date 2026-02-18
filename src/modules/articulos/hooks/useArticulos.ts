@@ -110,6 +110,7 @@ export const useArticulos = (
           titulo: formData.titulo,
           contenido: formData.contenido || {},
           activo: formData.activo !== false,
+          es_privado: formData.es_privado || false,
         };
         const response = await fetch("/api/v1/articulos", {
           method: "POST",
@@ -156,6 +157,7 @@ export const useArticulos = (
           titulo: formData.titulo,
           contenido: formData.contenido || {},
           activo: formData.activo !== false,
+          es_privado: formData.es_privado || false,
         };
         const response = await fetch(`/api/v1/articulos/${id}`, {
           method: "PUT",

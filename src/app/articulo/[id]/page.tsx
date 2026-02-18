@@ -1,6 +1,7 @@
 import { ClientLayout } from "@/components/layout/client";
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -12,6 +13,9 @@ interface ArticuloPageProps {
 }
 
 export default async function ArticuloPage({ params }: ArticuloPageProps) {
+  const user = await getCurrentUser();
+  const isAuthenticated = !!user;
+
   const articulo = await prisma.articulos.findUnique({
     where: { id: BigInt(params.id) },
     include: {
@@ -25,6 +29,11 @@ export default async function ArticuloPage({ params }: ArticuloPageProps) {
 
   if (!articulo) {
     notFound();
+  }
+
+  // Si el artículo es privado y el usuario no está autenticado, redirigir al login
+  if (articulo.es_privado && !isAuthenticated) {
+    redirect("/login");
   }
 
   const renderTextContent = (content: any[]) => {
@@ -207,7 +216,7 @@ export default async function ArticuloPage({ params }: ArticuloPageProps) {
   };
 
   return (
-    <ClientLayout>
+    <ClientLayout user={user}>
       <div className="max-w-4xl mx-auto px-4 py-8">
         <Link
           href="/"

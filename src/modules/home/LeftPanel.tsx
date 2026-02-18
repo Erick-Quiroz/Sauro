@@ -12,6 +12,7 @@ interface Articulo {
   id: bigint | number;
   titulo: string;
   contenido?: any;
+  es_privado?: boolean;
 }
 
 interface Categoria {
@@ -22,9 +23,13 @@ interface Categoria {
 
 interface LeftPanelProps {
   categorias: Categoria[];
+  isAuthenticated?: boolean;
 }
 
-export function LeftPanel({ categorias }: LeftPanelProps) {
+export function LeftPanel({
+  categorias,
+  isAuthenticated = false,
+}: LeftPanelProps) {
   return (
     <div className="backdrop-blur-sm bg-white/70 rounded-2xl shadow-xl p-8 border border-white/20 h-full hover:shadow-2xl transition-shadow duration-300">
       <div className="flex items-center gap-3 mb-2">
@@ -88,6 +93,11 @@ export function LeftPanel({ categorias }: LeftPanelProps) {
                           <span className="text-slate-700 font-medium group-hover:text-emerald-700 transition-colors">
                             {articulo.titulo}
                           </span>
+                          {articulo.es_privado && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500 text-white font-semibold">
+                              Privado
+                            </span>
+                          )}
                         </div>
                         <svg
                           className="w-5 h-5 flex-shrink-0 ml-3 text-emerald-600 group-hover:translate-x-1 transition-transform"

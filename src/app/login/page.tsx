@@ -40,7 +40,7 @@ export default function LoginPage() {
         showToast(`Bienvenido ${data.data.user.nombre}!`, "success");
 
         setTimeout(() => {
-          router.push("/admin");
+          router.push("/");
           router.refresh();
         }, 500);
       } else {

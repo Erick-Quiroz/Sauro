@@ -36,6 +36,9 @@ export function ArticuloFormModal({
   const router = useRouter();
   const [titulo, setTitulo] = useState(editingArticulo?.titulo || "");
   const [activo, setActivo] = useState(editingArticulo?.activo !== false);
+  const [esPrivado, setEsPrivado] = useState(
+    editingArticulo?.es_privado || false,
+  );
 
   const handleNavigateToEditor = () => {
     if (!titulo.trim()) {
@@ -46,6 +49,7 @@ export function ArticuloFormModal({
     const datos = {
       titulo,
       activo,
+      es_privado: esPrivado,
     };
     sessionStorage.setItem("articulo_borrador", JSON.stringify(datos));
 
@@ -107,6 +111,31 @@ export function ArticuloFormModal({
                 }`}
               >
                 {activo ? "Activo" : "Inactivo"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium text-gray-700">
+                Visibilidad
+              </label>
+              <button
+                onClick={() => setEsPrivado(!esPrivado)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  esPrivado ? "bg-orange-500" : "bg-blue-500"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    esPrivado ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-sm font-medium ${
+                  esPrivado ? "text-orange-500" : "text-blue-500"
+                }`}
+              >
+                {esPrivado ? "Privado" : "Público"}
               </span>
             </div>
           </div>

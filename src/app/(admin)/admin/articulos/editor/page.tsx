@@ -22,6 +22,7 @@ function ArticuloEditorContent() {
   const [categoria, setCategoria] = useState("");
   const [contenido, setContenido] = useState("");
   const [activo, setActivo] = useState(true);
+  const [esPrivado, setEsPrivado] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -43,6 +44,7 @@ function ArticuloEditorContent() {
         id_categoria: categoria,
         contenido: contenido ? JSON.parse(contenido) : {},
         activo,
+        es_privado: esPrivado,
       };
 
       const url = isNew
@@ -98,6 +100,7 @@ function ArticuloEditorContent() {
               articulo.contenido ? JSON.stringify(articulo.contenido) : "",
             );
             setActivo(articulo.activo !== false);
+            setEsPrivado(articulo.es_privado === true);
           }
         } catch (error) {
           showToast("Error al cargar el artículo", "error");
@@ -108,6 +111,8 @@ function ArticuloEditorContent() {
           try {
             const datos = JSON.parse(borrador);
             if (datos.titulo) setTitulo(datos.titulo);
+            if (datos.activo !== undefined) setActivo(datos.activo);
+            if (datos.es_privado !== undefined) setEsPrivado(datos.es_privado);
             if (datos.categoria) setCategoria(datos.categoria);
           } catch (error) {}
         }
@@ -209,6 +214,8 @@ function ArticuloEditorContent() {
                 <ArticleMetadataPanel
                   categoria={categoria}
                   onCategoriaChange={setCategoria}
+                  esPrivado={esPrivado}
+                  onEsPrivadoChange={setEsPrivado}
                   activo={activo}
                   onActivoChange={setActivo}
                 />

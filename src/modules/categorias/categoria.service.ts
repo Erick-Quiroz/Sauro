@@ -69,16 +69,22 @@ export class CategoriaService extends BaseService<CategoriaDTO> {
     return categoria;
   }
 
-  async getAllCategoriasWithArticulos(): Promise<any[]> {
+  async getAllCategoriasWithArticulos(
+    isAuthenticated: boolean = false,
+  ): Promise<any[]> {
     const categorias = await prisma.categorias.findMany({
       where: { activo: true },
       include: {
         articulos: {
-          where: { activo: true },
+          where: {
+            activo: true,
+            es_privado: isAuthenticated ? undefined : false,
+          },
           select: {
             id: true,
             titulo: true,
             contenido: true,
+            es_privado: true,
           },
           orderBy: {
             create_at: "desc",

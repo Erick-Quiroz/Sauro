@@ -3,6 +3,7 @@ export interface Articulo {
   id_categoria?: bigint;
   titulo: string;
   contenido?: Record<string, any>;
+  es_privado?: boolean;
   activo?: boolean;
   create_at?: Date;
   update_at?: Date;
@@ -14,6 +15,7 @@ export interface CreateArticuloDTO {
   id_categoria?: bigint;
   titulo: string;
   contenido?: Record<string, any>;
+  es_privado?: boolean;
   activo?: boolean;
   create_by?: bigint;
 }
@@ -22,6 +24,7 @@ export interface UpdateArticuloDTO {
   id_categoria?: bigint;
   titulo?: string;
   contenido?: Record<string, any>;
+  es_privado?: boolean;
   activo?: boolean;
   update_by?: bigint;
 }

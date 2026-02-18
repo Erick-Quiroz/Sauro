@@ -34,11 +34,13 @@ export function ArticuloEditModal({
 }: ArticuloEditModalProps) {
   const [titulo, setTitulo] = useState("");
   const [activo, setActivo] = useState(true);
+  const [esPrivado, setEsPrivado] = useState(false);
 
   useEffect(() => {
     if (editingArticulo) {
       setTitulo(editingArticulo.titulo || "");
       setActivo(editingArticulo.activo === true);
+      setEsPrivado(editingArticulo.es_privado === true);
     }
   }, [editingArticulo, isOpen]);
 
@@ -51,6 +53,7 @@ export function ArticuloEditModal({
     const submitData: CreateArticuloDTO = {
       titulo,
       activo,
+      es_privado: esPrivado,
     };
 
     onSubmit(submitData);
@@ -60,6 +63,7 @@ export function ArticuloEditModal({
   const handleClose = () => {
     setTitulo("");
     setActivo(true);
+    setEsPrivado(false);
     onClose();
   };
 
@@ -110,6 +114,31 @@ export function ArticuloEditModal({
                 }`}
               >
                 {activo ? "Activo" : "Inactivo"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium text-gray-700">
+                Visibilidad
+              </label>
+              <button
+                onClick={() => setEsPrivado(!esPrivado)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  esPrivado ? "bg-orange-500" : "bg-blue-500"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    esPrivado ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
+              <span
+                className={`text-sm font-medium ${
+                  esPrivado ? "text-orange-500" : "text-blue-500"
+                }`}
+              >
+                {esPrivado ? "Privado" : "Público"}
               </span>
             </div>
           </div>

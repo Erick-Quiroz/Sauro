@@ -59,6 +59,7 @@ model Articulos {
   id_categoria BigInt
   titulo       String         @db.VarChar
   contenido    Json?          @db.Json
+  es_privado   Boolean        @default(false)
   create_at    DateTime       @default(now()) @db.Timestamp(6)
   update_at    DateTime       @updatedAt @db.Timestamp(6)
   create_by    BigInt?
