@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { LayoutDashboard, LogOut } from "lucide-react";
 
 interface ClientHeaderProps {
   user?: {
@@ -43,26 +44,31 @@ export function ClientHeader({ user }: ClientHeaderProps) {
             />
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {user ? (
               <>
-                <div className="text-right mr-4">
-                  <p className="text-sm font-semibold">
+                <div className="text-right hidden sm:block">
+                  <p className="text-xs font-semibold leading-tight">
                     {user.nombre} {user.apellido}
                   </p>
-                  <p className="text-xs text-gray-400">{user.email}</p>
+                  <p className="text-[11px] text-gray-400 leading-tight">
+                    {user.email}
+                  </p>
                 </div>
+                <div className="w-px h-6 bg-white/20 hidden sm:block" />
                 <Link
                   href="/admin"
-                  className="bg-sauro-green hover:bg-sauro-green/90 text-black font-medium px-4 py-2 rounded-md transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-sauro-green/10 hover:bg-sauro-green/20 text-sauro-green border border-sauro-green/30 transition-colors"
                 >
+                  <LayoutDashboard size={13} />
                   Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-md transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-white/5 hover:bg-red-500/10 text-gray-300 hover:text-red-400 border border-white/10 hover:border-red-500/30 transition-colors"
                 >
-                  Cerrar Sesión
+                  <LogOut size={13} />
+                  Salir
                 </button>
               </>
             ) : (
